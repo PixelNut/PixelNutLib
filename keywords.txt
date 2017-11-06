@@ -1,0 +1,83 @@
+#######################################
+# Syntax Coloring Map For PixelNutLib
+####################################### 
+# Classes and Structures
+#######################################
+
+PixelNutLib	KEYWORD1
+PixelNutEngine	KEYWORD1
+PixelNutSupport	KEYWORD1
+PixelNutComets	KEYWORD1
+PixelNutPlugin	KEYWORD1
+PluginFactory	KEYWORD1
+PixelValOrder	KEYWORD1
+DrawProps	KEYWORD1
+
+#######################################
+# Methods and Functions 
+#######################################	
+
+setMaxBrightness	KEYWORD2
+getMaxBrightness	KEYWORD2
+setDelayOffset	KEYWORD2
+getDelayOffset	KEYWORD2
+setPropertyMode	KEYWORD2
+setColorProperty	KEYWORD2
+setCountProperty	KEYWORD2
+getPropertyMode	KEYWORD2
+getPropertyHue	KEYWORD2
+getPropertyWhite	KEYWORD2
+getPropertyCount	KEYWORD2
+triggerForce	KEYWORD2
+execCmdStr	KEYWORD2
+popPluginStack	KEYWORD2
+updateEffects	KEYWORD2
+
+msgFormat	KEYWORD2
+makeColorVals	KEYWORD2
+movePixels	KEYWORD2
+clearPixels	KEYWORD2
+getPixel	KEYWORD2
+setPixel	KEYWORD2
+sendForce	KEYWORD2
+mapValue	KEYWORD2
+clipValue	KEYWORD2
+
+cometData	KEYWORD2
+cometHeadCreate	KEYWORD2
+cometHeadDelete	KEYWORD2
+cometHeadAdd	KEYWORD2
+cometHeadDraw	KEYWORD2
+
+gettype	KEYWORD2
+begin	KEYWORD2
+trigger	KEYWORD2
+nextstep	KEYWORD2
+
+#######################################
+# Constants
+#######################################
+
+Status_Success	LITERAL1
+Status_Error_BadVal	LITERAL1
+Status_Error_BadCmd	LITERAL1
+Status_Error_Memory	LITERAL1
+
+ExtControlBit_DegreeHue	LITERAL1
+ExtControlBit_PcentWhite	LITERAL1
+ExtControlBit_PixCount	LITERAL1
+ExtControlBit_Trigger	LITERAL1
+ExtControlBit_All	LITERAL1
+ 
+PluginType_PreDraw	LITERAL1
+PluginType_ReDraw	LITERAL1
+
+RADIANS_PER_WAVE	LITERAL1
+MAX_BYTE_VALUE	LITERAL1
+MAX_WORD_VALUE	LITERAL1
+MAX_PERCENTAGE	LITERAL1
+MAX_DEGREES_HUE	LITERAL1
+MAX_PIXEL_VALUE	LITERAL1
+MAX_DELAY_VALUE	LITERAL1
+MAX_FORCE_VALUE	LITERAL1
+MAX_PLUGIN_VALUE	LITERAL1
