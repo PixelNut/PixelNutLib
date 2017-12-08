@@ -22,7 +22,8 @@ extern PluginFactoryCore *pPluginFactory; // use externally declared pointer to 
 // Constructor: initialize class variables, allocate memory for layer/track stacks
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-PixelNutEngine::PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels, uint16_t first_pixel,
+PixelNutEngine::PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels,
+                               uint16_t first_pixel, bool goupwards,
                                short num_layers, short num_tracks)
 {
   // NOTE: cannot call DBGOUT from constructor
@@ -30,6 +31,7 @@ PixelNutEngine::PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels, uint16_t f
   pDisplayPixels  = ptr_pixels;
   numPixels       = num_pixels;
   firstPixel      = first_pixel;
+  goUpwards       = goupwards;
   segOffset       = 0;
   segCount        = num_pixels;
 
@@ -193,7 +195,7 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segnum, in
     pTrack->draw.pcentBright   = MAX_PERCENTAGE;  // start off with max brightness
     pTrack->draw.pixCount      = 1;               // default count is 1
                                                   // default hue is 0(red) and white is 0
-    pTrack->draw.goUpwards     = true;            // go upwards by default
+    pTrack->draw.goUpwards     = goUpwards;       // default direction on strip
     pTrack->draw.orPixelValues = true;            // OR with other tracks
     pixelNutSupport.makeColorVals(&pTrack->draw); // create RGB values
   }
@@ -675,6 +677,7 @@ bool PixelNutEngine::updateEffects(void)
   timePrevUpdate = pixelNutSupport.getMsecs();
 
   CheckAutoTrigger(timePrevUpdate);
+  //DBGOUT((F("TimePrevUpdate=%ld"), timePrevUpdate));
 
   // first have any redraw effects that are ready draw into its own buffers...
 
@@ -723,6 +726,7 @@ bool PixelNutEngine::updateEffects(void)
     pDrawPixels = pDisplayPixels; // restore to default (display buffer)
 
     //DBGOUT((F("delay=%d.%d"), pTrack->draw.msecsDelay, delayOffset));
+
     short addtime = pTrack->draw.msecsDelay + delayOffset;
     if (addtime <= 0) addtime = 1; // must advance at least by 1 each time
     pTrack->msTimeRedraw = timePrevUpdate + addtime;
@@ -806,6 +810,12 @@ bool PixelNutEngine::updateEffects(void)
         y += 3;
       }
     }
+
+    /*
+    byte *p = pDisplayPixels;
+    for (int i = 0; i < numPixels; ++i)
+      DBGOUT((F("%d.%d.%d"), *p++, *p++, *p++));
+    */
   }
 
   return doshow;

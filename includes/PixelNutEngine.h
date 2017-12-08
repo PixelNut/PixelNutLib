@@ -40,9 +40,11 @@ public:
     ExtControlBit_All        = 7    // all bits ORed together
   };
 
-  // Constructor: init location/length of the pixels to be drawn, and the maximum
-  // number of effect layers and tracks that the applications is requesting.
-  PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels, uint16_t first_pixel,
+  // Constructor: init location/length of the pixels to be drawn, 
+  // the first pixel to start drawing and the direction of drawing,
+  // and the maximum effect layers and tracks that can be supported.
+  PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels,
+                 uint16_t first_pixel, bool goupwards,
                  short num_layers, short num_tracks);
 
   void setMaxBrightness(byte percent) { pcentBright = percent; }
@@ -144,6 +146,7 @@ protected:
 
   uint32_t timePrevUpdate = 0;                  // time of previous call to update
 
+  bool goUpwards = true;                        // true to draw from start to end, else reverse
   uint16_t numPixels;                           // total number of pixels in output display
   uint16_t firstPixel;                          // offset to the start of the drawing array
   byte *pDisplayPixels;                         // pointer to actual output display pixels
