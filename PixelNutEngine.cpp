@@ -133,8 +133,12 @@ void PixelNutEngine::popPluginStack(int count)
 
   DBGOUT((F("New stack levels: layer=%d track=%d"), indexLayerStack, indexTrackStack));
 
-  // must clear if nothing will be drawn to be displayed
-  if (indexLayerStack < 0) memset(pDisplayPixels, 0, (numPixels*3));
+  if (indexLayerStack < 0) // everything popped off
+  {
+    segOffset = 0; // reset the segment limits
+    segCount = numPixels;
+    memset(pDisplayPixels, 0, (numPixels*3)); // must clear if nothing will be drawn
+  }
 }
 
 // return false if unsuccessful for any reason
