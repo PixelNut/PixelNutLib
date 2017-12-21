@@ -105,6 +105,7 @@ void PixelNutEngine::popPluginStack(int count)
     // check if must remove a track from the stack as well
     // by determining if no other layers use it
     bool dopop = true;
+
     for (int i = 0; i < indexLayerStack; ++i) // don't include this layer
     {
       if (indexTrackStack == pluginLayers[i].track)
@@ -113,6 +114,7 @@ void PixelNutEngine::popPluginStack(int count)
         break;
       }
     }
+
     if (dopop)
     {
       if (pluginTracks[indexTrackStack].pRedrawBuff != NULL)
