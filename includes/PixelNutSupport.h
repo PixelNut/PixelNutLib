@@ -8,7 +8,11 @@
 #ifndef PIXELNUT_SUPPORT_H
 #define PIXELNUT_SUPPORT_H
 
+#if defined(SPARK)
+#include "platform.h"
+#else
 #include <Arduino.h>
+#endif
 
 #define ATTR_PACKED __attribute__ ((packed))
 #define C_ASSERT(x) extern "C" int __CPP_ASSERT__ [(x)?1:-1]
