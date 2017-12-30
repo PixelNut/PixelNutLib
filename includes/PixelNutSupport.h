@@ -8,10 +8,10 @@
 #ifndef PIXELNUT_SUPPORT_H
 #define PIXELNUT_SUPPORT_H
 
-#if defined(SPARK)
-#include "platform.h"
-#else
-#include <Arduino.h>
+#if defined(ARDUINO)
+#include "Arduino.h"
+#elif defined(SPARK)
+#include "Particle.h"
 #endif
 
 #define ATTR_PACKED __attribute__ ((packed))
