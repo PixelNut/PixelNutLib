@@ -26,10 +26,17 @@
 #include "plugins/PNP_ColorModify.h"
 #include "plugins/PNP_ColorRandom.h"
 #include "plugins/PNP_CountSet.h"
+#include "plugins/PNP_CountWave.h"
+#include "plugins/PNP_CountSurge.h"
+#include "plugins/PNP_DelaySet.h"
+#include "plugins/PNP_DelayWave.h"
 #include "plugins/PNP_DelaySurge.h"
 #include "plugins/PNP_BrightWave.h"
 #include "plugins/PNP_WinExpander.h"
+#include "plugins/PNP_WinScanner.h"
+#include "plugins/PNP_WinJumper.h"
 #include "plugins/PNP_FlipDirection.h"
+
 #elif defined(SPARK)
 #include "math.h"
 #include "PNP_DrawAll.h"
@@ -48,9 +55,15 @@
 #include "PNP_ColorModify.h"
 #include "PNP_ColorRandom.h"
 #include "PNP_CountSet.h"
+#include "PNP_CountWave.h"
+#include "PNP_CountSurge.h"
+#include "PNP_DelaySet.h"
+#include "PNP_DelayWave.h"
 #include "PNP_DelaySurge.h"
 #include "PNP_BrightWave.h"
 #include "PNP_WinExpander.h"
+#include "PNP_WinScanner.h"
+#include "PNP_WinJumper.h"
 #include "PNP_FlipDirection.h"
 #endif
 
@@ -93,13 +106,19 @@ PixelNutPlugin *PluginFactoryAdv::makePlugin(int plugin)
     case 112: return new PNP_ColorRandom;                 // sets color hue/white to random values on each step (doesn't use force)
 
     case 120: return new PNP_CountSet;                    // force directly sets the count property value once when triggered
+    case 121: return new PNP_CountSurge;                  // force increases count then evenly reverts to original value
+    case 122: return new PNP_CountWave;                   // force determines the number of steps that modulates pixel count
 
+    case 130: return new PNP_DelaySet;                    // force directly sets the delay property value once when triggered
     case 131: return new PNP_DelaySurge;                  // force decreases delay then evenly reverts to original value
                                                           // (this must be triggered periodically for a continuous effect)
+    case 132: return new PNP_DelayWave;                   // force determines the number of steps that modulates delay time
 
     case 142: return new PNP_BrightWave;                  // force determines the number of steps that modulates brightness
 
     case 150: return new PNP_WinExpander;                 // expands/contracts drawing window that stays centered on strip
+    case 151: return new PNP_WinScanner;                  // moves drawing window for a track back and forth
+    case 152: return new PNP_WinJumper;                   // randomly changes the location of the drawing window
 
     case 160: return new PNP_FlipDirection;               // toggles the drawing direction on each trigger
 
