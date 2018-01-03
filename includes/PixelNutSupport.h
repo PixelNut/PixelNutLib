@@ -56,7 +56,11 @@ public:
   GetMsecsTime getMsecs;
 
   // abstracts interface from debug output display formatting
+  #if defined(SPARK)
+  void (*msgFormat)(const char *str, ...);
+  #else
   void (*msgFormat)(const __FlashStringHelper *str, ...);
+  #endif
 
   /////////////////////////////////////////////////////////////////////////////
   // The rest of the interface is used by the Engine to call into the Plugins,

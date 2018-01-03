@@ -100,7 +100,11 @@ static void HSVtoRGB(int hue, byte sat, byte val, byte *rptr, byte *gptr, byte *
 }
 
 // empty default routine for debug output
+#if defined(SPARK)
+static void MsgFormat(const char *str, ...) {}
+#else
 static void MsgFormat(const __FlashStringHelper *str, ...) {}
+#endif
 
 static PixelValOrder *pPixOrder;
 
