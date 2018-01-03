@@ -33,8 +33,6 @@
 #include "plugins/PNP_DelaySurge.h"
 #include "plugins/PNP_BrightWave.h"
 #include "plugins/PNP_WinExpander.h"
-#include "plugins/PNP_WinScanner.h"
-#include "plugins/PNP_WinJumper.h"
 #include "plugins/PNP_FlipDirection.h"
 
 #elif defined(SPARK)
@@ -62,8 +60,6 @@
 #include "PNP_DelaySurge.h"
 #include "PNP_BrightWave.h"
 #include "PNP_WinExpander.h"
-#include "PNP_WinScanner.h"
-#include "PNP_WinJumper.h"
 #include "PNP_FlipDirection.h"
 #endif
 
@@ -117,8 +113,6 @@ PixelNutPlugin *PluginFactoryAdv::makePlugin(int plugin)
     case 142: return new PNP_BrightWave;                  // force determines the number of steps that modulates brightness
 
     case 150: return new PNP_WinExpander;                 // expands/contracts drawing window that stays centered on strip
-    case 151: return new PNP_WinScanner;                  // moves drawing window for a track back and forth
-    case 152: return new PNP_WinJumper;                   // randomly changes the location of the drawing window
 
     case 160: return new PNP_FlipDirection;               // toggles the drawing direction on each trigger
 
