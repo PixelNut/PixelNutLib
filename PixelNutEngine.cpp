@@ -449,16 +449,13 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
   int curtrack = indexTrackStack;
   int segnum = 0;
 
-  while (*cmdstr == ' ') ++cmdstr; // skip spaces
-  for (int i = 0; ; ++i) // convert to upper case
-  {
-    if (!cmdstr[i]) break;
+  for (int i = 0; cmdstr[i]; ++i) // convert to upper case
     cmdstr[i] = toupper(cmdstr[i]);
-  }
+
   char *cmd = strtok(cmdstr, " "); // separate options by spaces
 
   if (cmd == NULL) status = Status_Error_BadCmd;
-  else while (cmd != NULL)
+  else do
   {
     PixelNutSupport::DrawProps *pdraw;
     if (curtrack >= 0) pdraw = &pluginTracks[curtrack].draw;
@@ -672,6 +669,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
 
     cmd = strtok(NULL, " ");
   }
+  while (cmd != NULL);
 
   DBGOUT((F(">> Exec: status=%d"), status));
   return status;
