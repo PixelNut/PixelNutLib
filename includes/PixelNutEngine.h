@@ -82,6 +82,7 @@ public:
   virtual void triggerForce(byte layer, short force, PixelNutSupport::DrawProps *pdraw);
 
   // Parses and executes a command string, returning a status code.
+  // An empty string (or one with only spaces), is ignored.
   virtual Status execCmdStr(char *cmdstr);
 
   // Pops one or more layers from the stack

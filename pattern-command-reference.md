@@ -174,18 +174,18 @@ X[<pixel>]
 ---------------------------------------------------------------
 Sets the starting pixel of a segment. Together with the Y command this defines the range of a segment, after which all commands apply to only the pixels within this range.
 
-If no value is specified then 0 is assumed, which is also the initial value for this property.
+If no value is specified then 0 is used, which is also the initial value for this property.
 
 
 Y[<pixel_count>]
 ---------------------------------------------------------------
 Sets the number of pixels in a segment. Together with the X command this defines the range of a segment, after which all commands apply to only the pixels within this range.
 
-If no value is specified then the total number of pixels in the entire strip is assumed, which is also the initial value for this property.
+If no value is specified then the total number of pixels in the entire strip is used, which is also the initial value for this property.
 
 
 Z[<pixel>]
 ---------------------------------------------------------------
 Sets the offset into the strip of pixels where drawing is begun. Increasing this from 0 has the effect of shifting the pattern around the strip.
 
-If no value is specified then 0 is assumed, which is also the initial value for this property.
+If no value is specified, or the value is out of range, then 0 is used, which is also the initial value for this property.

@@ -454,8 +454,8 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
 
   char *cmd = strtok(cmdstr, " "); // separate options by spaces
 
-  if (cmd == NULL) status = Status_Error_BadCmd;
-  else do
+  if (cmd == NULL) return Status_Success; // ignore empty line
+  do
   {
     PixelNutSupport::DrawProps *pdraw;
     if (curtrack >= 0) pdraw = &pluginTracks[curtrack].draw;
@@ -483,8 +483,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
     else if (cmd[0] == 'Z') // sets position of the first pixel to start drawing
     {
       int pos = GetNumValue(cmd+1, numPixels-1); // returns -1 if not within range
-      if (pos < 0) status = Status_Error_BadCmd;
-      else firstPixel = pos;
+      firstPixel = (pos >= 0) ? pos : 0;         // set to 0 if out of range
     }
     else if (cmd[0] == 'E') // add a plugin Effect to the stack ("E" is an error)
     {
