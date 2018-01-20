@@ -291,25 +291,31 @@ void PixelNutEngine::DoTrigger(bool not_extern, int layer, short force)
 }
 
 // internal: check for any automatic triggering that needs to be done
-void PixelNutEngine::CheckAutoTrigger(uint32_t startime)
+void PixelNutEngine::CheckAutoTrigger(bool rollover)
 {
   for (int i = 0; i <= indexLayerStack; ++i) // for each plugin layer
   {
     if (pluginLayers[i].track > indexTrackEnable) break; // not enabled yet
 
-    if (pluginLayers[i].trigActive &&                // triggering is active
-        (pluginLayers[i].trigTimeMsecs > 0) &&       // auto-triggering set
-        (pluginLayers[i].trigTimeMsecs <= startime)) // and time has expired
+    // just always reset trigger time after rollover event
+    if (rollover && (pluginLayers[i].trigTimeMsecs > 0))
+      pluginLayers[i].trigTimeMsecs = timePrevUpdate;
+
+    if (pluginLayers[i].trigActive &&                      // triggering is active
+        (pluginLayers[i].trigTimeMsecs > 0) &&             // auto-triggering set
+        (pluginLayers[i].trigTimeMsecs <= timePrevUpdate)) // and time has expired
     {
-      DBGOUT((F("AutoTrigger: startime=%lu msecs=%lu delay=%u+%u count=%d"), startime, pluginLayers[i].trigTimeMsecs,
-                pluginLayers[i].trigDelayMin, pluginLayers[i].trigDelayRange, pluginLayers[i].trigCount));
+      DBGOUT((F("AutoTrigger: prevtime=%lu msecs=%lu delay=%u+%u count=%d"),
+                timePrevUpdate, pluginLayers[i].trigTimeMsecs,
+                pluginLayers[i].trigDelayMin, pluginLayers[i].trigDelayRange,
+                pluginLayers[i].trigCount));
 
       short force = ((pluginLayers[i].trigForce >= 0) ? pluginLayers[i].trigForce : random(0, MAX_FORCE_VALUE+1));
 
       DoTrigger(true, i, force);
 
       if (!pluginLayers[i].trigCount || --pluginLayers[i].trigCount)
-        pluginLayers[i].trigTimeMsecs = startime +
+        pluginLayers[i].trigTimeMsecs = timePrevUpdate +
           (1000 * random(pluginLayers[i].trigDelayMin,
                         (pluginLayers[i].trigDelayMin + pluginLayers[i].trigDelayRange+1)));
 
@@ -676,11 +682,13 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
 
 bool PixelNutEngine::updateEffects(void)
 {
-  bool doshow = (timePrevUpdate == 0); // force update if 0
-  timePrevUpdate = pixelNutSupport.getMsecs();
+  bool doshow = false;
 
-  CheckAutoTrigger(timePrevUpdate);
-  //DBGOUT((F("TimePrevUpdate=%ld"), timePrevUpdate));
+  uint32_t time = pixelNutSupport.getMsecs();
+  bool rollover = (timePrevUpdate > time);
+  timePrevUpdate = time;
+
+  CheckAutoTrigger(rollover);
 
   // first have any redraw effects that are ready draw into its own buffers...
 
@@ -691,6 +699,8 @@ bool PixelNutEngine::updateEffects(void)
 
     if (!(pluginLayers[pTrack->layer].pPlugin->gettype() & PLUGIN_TYPE_REDRAW))
       continue;
+
+    if (rollover) pTrack->msTimeRedraw = timePrevUpdate;
 
     //DBGOUT((F("redraw buffer: track=%d layer=%d type=0x%04X"), i, pTrack->layer,
     //        pluginLayers[pTrack->layer].pPlugin->gettype()));

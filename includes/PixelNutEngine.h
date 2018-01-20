@@ -168,7 +168,7 @@ protected:
   virtual Status NewPluginLayer(int plugin, int segnum, int start, int end);
 
   void DoTrigger(bool notext, int layer, short force);
-  void CheckAutoTrigger(uint32_t startime);
+  void CheckAutoTrigger(bool rollover);
 };
 
 class PluginFactoryCore
