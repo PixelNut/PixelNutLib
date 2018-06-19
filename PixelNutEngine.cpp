@@ -467,7 +467,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
     if (curtrack >= 0) pdraw = &pluginTracks[curtrack].draw;
     else pdraw = NULL;
 
-    DBGOUT((F(">> Cmd=%s"), cmd));
+    DBGOUT((F(">> Cmd=%s len=%d"), cmd, strlen(cmd)));
 
     if (cmd[0] == 'X') // sets offset into output display of the current segment
     {
