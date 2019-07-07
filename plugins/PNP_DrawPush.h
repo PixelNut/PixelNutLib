@@ -17,7 +17,6 @@
 // Properties Used:
 //
 //    All current color properties.
-//    doRepeat - if not set then stops after pushing to entire strip.
 //
 // Properties Affected:
 //
@@ -40,7 +39,7 @@ public:
 
   void trigger(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw, short force)
   {
-    forceVal = force; // if 0 then drawing stops after cycle
+    forceVal = force; // if <0 then drawing stops after cycle
     doDraw = true;
     curPos = 0;
   }
@@ -66,13 +65,14 @@ public:
     {
       doDraw = false;
       curPos = 0;
+      pixelNutSupport.sendForce(handle, myid, forceVal, pdraw);
     }
     else if (forceVal >= 0)
     {
       doDraw = true;
       curPos = 0;
+      pixelNutSupport.sendForce(handle, myid, forceVal, pdraw);
     }
-    else pixelNutSupport.sendForce(handle, myid, -forceVal, pdraw);
   }
 
 private:
