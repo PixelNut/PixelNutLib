@@ -1,4 +1,4 @@
-How PixelNut Effect Patterns Work
+	How PixelNut Effect Patterns Work
 ===============================================================
 
 An effect pattern is simply a string of characters, which is parsed by the PixelNut Engine for commands to be executed with the 'execCmdStr()' method (defined in 'PixelNutEngine.h').
@@ -37,7 +37,7 @@ The following commands set the drawing properties, determining how, when, and wh
 H<degrees>			  color hue degrees
 W<percent>			  whiteness percent
 B<percent>			  brightness percent.
-C<percent>			  pixel count
+C<percent>			  pixel count percent
 D<byteval>			  delay in milliseconds
 U[0,1]			  direction up/down
 V[0,1]			  layer pixel value OR'ed or overwritten
