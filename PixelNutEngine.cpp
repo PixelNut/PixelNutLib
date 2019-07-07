@@ -209,6 +209,7 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segnum, in
   PluginLayer *pLayer = &pluginLayers[indexLayerStack];
   pLayer->track         = indexTrackStack;
   pLayer->pPlugin       = pPlugin;
+  pLayer->trigCount     = -1; // forever
   pLayer->trigSource    = -1; // disabled
   pLayer->trigDelayMin  = 1;  // 1 sec min
   pLayer->trigForce     = MAX_FORCE_VALUE/2;
@@ -301,9 +302,10 @@ void PixelNutEngine::CheckAutoTrigger(bool rollover)
     if (rollover && (pluginLayers[i].trigTimeMsecs > 0))
       pluginLayers[i].trigTimeMsecs = timePrevUpdate;
 
-    if (pluginLayers[i].trigActive &&                      // triggering is active
-        (pluginLayers[i].trigTimeMsecs > 0) &&             // auto-triggering set
-        (pluginLayers[i].trigTimeMsecs <= timePrevUpdate)) // and time has expired
+    if (pluginLayers[i].trigActive &&                       // triggering is active
+        pluginLayers[i].trigCount  &&                       // have count (or inifinite)
+        (pluginLayers[i].trigTimeMsecs > 0) &&              // auto-triggering set
+        (pluginLayers[i].trigTimeMsecs <= timePrevUpdate))  // and time has expired
     {
       DBGOUT((F("AutoTrigger: prevtime=%lu msecs=%lu delay=%u+%u count=%d"),
                 timePrevUpdate, pluginLayers[i].trigTimeMsecs,
@@ -314,12 +316,11 @@ void PixelNutEngine::CheckAutoTrigger(bool rollover)
 
       DoTrigger(true, i, force);
 
-      if (!pluginLayers[i].trigCount || --pluginLayers[i].trigCount)
-        pluginLayers[i].trigTimeMsecs = timePrevUpdate +
+      pluginLayers[i].trigTimeMsecs = timePrevUpdate +
           (1000 * random(pluginLayers[i].trigDelayMin,
                         (pluginLayers[i].trigDelayMin + pluginLayers[i].trigDelayRange+1)));
 
-      else pluginLayers[i].trigActive = false; // stop triggering
+      if (pluginLayers[i].trigCount > 0) --pluginLayers[i].trigCount;
     }
   }
 }
@@ -617,6 +618,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
         {         // otherwise the count does NOT include the initial trigger from the "T" command
 
           pluginLayers[curlayer].trigCount = GetNumValue(cmd+1, 0, MAX_WORD_VALUE); // clip to 0-MAX_WORD_VALUE
+          if (!pluginLayers[curlayer].trigCount) pluginLayers[curlayer].trigCount = -1;
           break;
         }
         case 'O': // sets minimum auto-triggering time ("O1" is default(1sec), "O" has no effect)
@@ -634,7 +636,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
                 (1000 * random(pluginLayers[curlayer].trigDelayMin,
                               (pluginLayers[curlayer].trigDelayMin + pluginLayers[curlayer].trigDelayRange+1)));
 
-            DBGOUT((F("AutoTriggerSet: layer=%d delay=%u+%u count=%u force=%d"), curlayer,
+            DBGOUT((F("AutoTriggerSet: layer=%d delay=%u+%u count=%d force=%d"), curlayer,
                       pluginLayers[curlayer].trigDelayMin, pluginLayers[curlayer].trigDelayRange,                          
                       pluginLayers[curlayer].trigCount, pluginLayers[curlayer].trigForce));
           }

@@ -104,7 +104,7 @@ protected:
   {
                                                 // random auto triggering information:
     uint32_t trigTimeMsecs;                     // time of next trigger in msecs (0 if not set yet)
-    uint16_t trigCount;                         // number of times to trigger (0 to repeat forever)
+    uint16_t trigCount;                         // number of times to trigger (-1 to repeat forever)
     uint16_t trigDelayMin;                      // min amount of delay before next trigger in seconds
     uint16_t trigDelayRange;                    // range of delay values possible (min...min+range)
 
