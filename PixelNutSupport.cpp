@@ -1,6 +1,6 @@
 // PixelNut Support Interface Class Implementation
 /*
-    Copyright (c) 2015-2017, Greg de Valois
+    Copyright (c) 2015-2020, Greg de Valois
     Software License Agreement (BSD License)
     See license.txt for the terms of this license.
 */
@@ -168,7 +168,6 @@ void PixelNutSupport::setPixel(PixelNutHandle p, uint16_t pos, byte r, byte g, b
   {
     byte *ppixs = (pEngine->pDrawPixels + (pos * 3));
 
-    PixelNutEngine *pEngine = (PixelNutEngine*)p;
     byte brightval = (scale * pEngine->getMaxBrightness() * MAX_BYTE_VALUE) / MAX_PERCENTAGE;
     float factor = ((float)GammaCorrection(brightval) / MAX_BYTE_VALUE);
 

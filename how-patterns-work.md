@@ -1,4 +1,4 @@
-	How PixelNut Effect Patterns Work
+How PixelNut Effect Patterns Work
 ===============================================================
 
 An effect pattern is simply a string of characters, which is parsed by the PixelNut Engine for commands to be executed with the 'execCmdStr()' method (defined in 'PixelNutEngine.h').
@@ -17,8 +17,8 @@ The notation used for the command definitions use the following conventions and 
 <byteval>			{0...255}
 <wordval>			{0...65535}
 <force>			{0...1000}
-<plugin>			{0...32000}
-<layer_num>		{0...<current_layer_count>-1}
+<plugin>			{0...MAX_PLUGIN_VALUE}
+<layer_num>			{0...<current_layer_count>-1}
 <layer_count>		{1...<current_layer_count>}
 <pixel>			{0...<number_of_pixels-1>}
 <pixel_count>		{1...<number_of_pixels>}
