@@ -128,7 +128,7 @@ protected:
 
     byte layer;                                 // index into layer stack to redraw effect
     byte ctrlBits;                              // bits to control setting property values
-    byte segNum;                                // assigned to this segment (from 0)
+    byte segIndex;                              // assigned to this segment (from 0)
     byte disable;                               // non-zero to disable controls
 
     uint16_t dspCount;                          // number of pixels to display
@@ -171,14 +171,9 @@ protected:
   void CheckAutoTrigger(bool rollover);
 };
 
-class PluginFactoryCore
+class PluginFactory
 {
-public: virtual PixelNutPlugin *makePlugin(int plugin);
-};
-
-class PluginFactoryAdv : public PluginFactoryCore
-{
-public: virtual PixelNutPlugin *makePlugin(int plugin);
+  public: virtual PixelNutPlugin *makePlugin(int plugin);
 };
 
 #endif // PIXELNUT_ENGINE_H

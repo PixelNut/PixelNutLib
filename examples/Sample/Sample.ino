@@ -33,8 +33,8 @@ PixelNutEngine pixelNutEngine(neoPixels.getPixels(), neoPixels.numPixels(), 0, N
 PixelNutEngine *pPixelNutEngine = &pixelNutEngine;
 
 // create single static object instance and a pointer to it
-PluginFactoryAdv pluginFactory = PluginFactoryAdv();
-PluginFactoryCore *pPluginFactory = &pluginFactory;
+PluginFactory pluginFactory = PluginFactory();
+PluginFactory *pPluginFactory = &pluginFactory;
 
 char myPattern[] = "P E10 B50 D60 T E101 T E120 F250 T G";   // light waves that change color periodically
 

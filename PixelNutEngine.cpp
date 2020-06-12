@@ -7,7 +7,7 @@
 
 #include "PixelNutLib.h"
 
-extern PluginFactoryCore *pPluginFactory; // use externally declared pointer to instance
+extern PluginFactory *pPluginFactory; // use externally declared pointer to instance
 
 #define DEBUG_OUTPUT 0 // 1 to debug this file
 #if DEBUG_OUTPUT
@@ -144,7 +144,7 @@ void PixelNutEngine::popPluginStack(int count)
 }
 
 // return false if unsuccessful for any reason
-PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segnum, int pix_start, int pix_count)
+PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segindex, int pix_start, int pix_count)
 {
   // check if can add another layer to the stack
   if ((indexLayerStack+1) >= maxPluginLayers)
@@ -191,7 +191,7 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segnum, in
     pTrack->layer     = indexLayerStack;
     pTrack->ctrlBits  = 0;  // allow overwriting by default
     pTrack->disable   = 0;
-    pTrack->segNum    = segnum;
+    pTrack->segIndex  = segindex;
     pTrack->dspCount  = pix_count;
     pTrack->dspOffset = pix_start;
 
@@ -454,7 +454,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
 
   int curlayer = indexLayerStack;
   int curtrack = indexTrackStack;
-  int segnum = 0;
+  int segindex = -1;
 
   for (int i = 0; cmdstr[i]; ++i) // convert to upper case
     cmdstr[i] = toupper(cmdstr[i]);
@@ -483,7 +483,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
       if (count > 0)
       {
         segCount = count;
-        ++segnum;
+        ++segindex;
       }
       else segCount = numPixels;
     }
@@ -497,7 +497,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
       int plugin = GetNumValue(cmd+1, MAX_PLUGIN_VALUE); // returns -1 if not within range
       if (plugin >= 0)
       {
-        status = NewPluginLayer(plugin, segnum, segOffset, segCount);
+        status = NewPluginLayer(plugin, ((segindex < 0) ? 0 : segindex), segOffset, segCount);
         if (status == Status_Success)
         {
           curtrack = indexTrackStack;

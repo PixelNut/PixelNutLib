@@ -65,9 +65,9 @@
 #include "PNP_FlipDirection.h"
 #endif
 
-extern PluginFactoryCore *pPluginFactory; // use externally declared pointer to instance
+extern PluginFactory *pPluginFactory; // use externally declared pointer to instance
 
-PixelNutPlugin *PluginFactoryCore::makePlugin(int plugin)
+PixelNutPlugin *PluginFactory::makePlugin(int plugin)
 {
   switch (plugin)
   {
@@ -86,14 +86,6 @@ PixelNutPlugin *PluginFactoryCore::makePlugin(int plugin)
     case 51:  return new PNP_Blinky;                      // blinks on and off random pixels at full brightness
     case 52:  return new PNP_Noise;                       // sets random pixels/brightness with current color
 
-    default:  return NULL;
-  }
-}
-
-PixelNutPlugin *PluginFactoryAdv::makePlugin(int plugin)
-{
-  switch (plugin)
-  {
     // predraw effects:
 
     case 100: return new PNP_HueSet;                      // force directly sets the color hue property value once when triggered
@@ -119,7 +111,7 @@ PixelNutPlugin *PluginFactoryAdv::makePlugin(int plugin)
 
     case 160: return new PNP_FlipDirection;               // toggles the drawing direction on each trigger
 
-    default:  return PluginFactoryCore::makePlugin(plugin);
+    default:  return NULL;
   }
 }
 
