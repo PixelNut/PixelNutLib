@@ -56,7 +56,7 @@ public:
   GetMsecsTime getMsecs;
 
   // abstracts interface from debug output display formatting
-  #if defined(SPARK)
+  #if defined(SPARK) || defined(ESP32)
   void (*msgFormat)(const char *str, ...);
   #else
   void (*msgFormat)(const __FlashStringHelper *str, ...);
