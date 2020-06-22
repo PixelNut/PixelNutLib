@@ -83,7 +83,7 @@ Enables external triggering for a plugin layer. This means that calls to 'trigge
 The default value is disabled.
 
 
-M[<layer_num>]
+M[<layer>]
 ---------------------------------------------------------------
 Sets the plugin effect layer which subsequent property commands ('B', 'C', 'D', etc.) will be applied to. Layers are numbered from 0.
 
@@ -172,7 +172,7 @@ If no value is specified the command is ignored. The initial value for this prop
 
 X[<pixel>]
 ---------------------------------------------------------------
-Sets the starting pixel of a segment. Together with the Y command this defines the range of a segment, after which all commands apply to only the pixels within this range.
+Sets the starting pixel of a segment. Together with the Y command this defines the range of a segment, after which all commands apply to only the pixels within this range. Pixels are numbered from 0.
 
 If no value is specified then 0 is used, which is also the initial value for this property.
 
@@ -186,6 +186,6 @@ If no value is specified then the total number of pixels in the entire strip is 
 
 Z[<pixel>]
 ---------------------------------------------------------------
-Sets the offset into the strip of pixels where drawing is begun. Increasing this from 0 has the effect of shifting the pattern around the strip.
+Sets the offset into the strip of pixels where drawing is begun. Increasing this from 0 has the effect of shifting the pattern around the strip. Pixels are numbered from 0.
 
 If no value is specified, or the value is out of range, then 0 is used, which is also the initial value for this property.

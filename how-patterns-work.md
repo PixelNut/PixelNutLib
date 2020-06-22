@@ -9,19 +9,19 @@ Each command is a letter ('A'-'Z'), a numeric value depending on the specific co
 
 The notation used for the command definitions use the following conventions and symbolic names:
 
-{}				indicates a required selection
-[]				indicates an optional selection
+{}                  indicates a required selection
+[]                  indicates an optional selection
 
-<percent>			{0...100}
-<degrees>			{0...359}
-<byteval>			{0...255}
-<wordval>			{0...65535}
-<force>			{0...1000}
-<plugin>			{0...MAX_PLUGIN_VALUE}
-<layer_num>			{0...<current_layer_count>-1}
-<layer_count>		{1...<current_layer_count>}
-<pixel>			{0...<number_of_pixels-1>}
-<pixel_count>		{1...<number_of_pixels>}
+<percent>           {0...100}
+<degrees>           {0...359}
+<byteval>           {0...255}
+<wordval>           {0...65535}
+<force>             {0...1000}
+<plugin>            {0...MAX_PLUGIN_VALUE}
+<layer>             {0...<number_of_layers>-1}
+<layer_count>       {1...<number_of_layers>}
+<pixel>             {0...<number_of_pixels-1>}
+<pixel_count>       {1...<number_of_pixels>}
 
 
 Command Definitions
@@ -29,36 +29,36 @@ Command Definitions
 
 Effect plugins are specified with the 'E' command and its identifier (see the source file 'PluginFactory.cpp' for the mapping of values to effect plugins).
 
-E<plugin>			Creates new layer using specified plugin.
+E<plugin>           Creates new layer using specified plugin.
 
 The following commands set the drawing properties, determining how, when, and where pixels are drawn:
 
-				Sets drawing property:
-H<degrees>			  color hue degrees
-W<percent>			  whiteness percent
-B<percent>			  brightness percent.
-C<percent>			  pixel count percent
-D<byteval>			  delay in milliseconds
-U[0,1]			  direction up/down
-V[0,1]			  layer pixel value OR'ed or overwritten
-X<pixel>			  defines starting pixel of a segment
-Y<pixel_count>		  sets number of pixels in the segment
-Z<pixel>			  sets first pixel to starting drawing
+                    Sets drawing property:
+H<degrees>            color hue degrees
+W<percent>            whiteness percent
+B<percent>            brightness percent.
+C<percent>            pixel count percent
+D<byteval>            delay in milliseconds
+U[0,1]                direction up/down
+V[0,1]                layer pixel value OR'ed or overwritten
+X<pixel>              defines starting pixel of a segment
+Y<pixel_count>        sets number of pixels in the segment
+Z<pixel>              sets first pixel to starting drawing
 
 
 These commands control and affect how triggering works for one particular plugin layer:
 
-A[<byteval>]		Assigns trigger source for effect.
-F[<force>]			Sets force value used in triggering.
-N[<wordval>]		Sets repeat count used in triggering.
-O[<wordval>]		Sets min auto triggering time in seconds.
-T[<wordval>]		Causes trigger, with optional timer value.
+A[<byteval>]        Assigns trigger source for effect.
+F[<force>]          Sets force value used in triggering.
+N[<wordval>]        Sets repeat count used in triggering.
+O[<wordval>]        Sets min auto triggering time in seconds.
+T[<wordval>]        Causes trigger, with optional timer value.
 
 The 'I' command enables external triggering for the specified plugin layer. Otherwise, calls to the 'triggerForce()' library method from applications will be ignored for that effect layer.
 
 The 'Q<byteval>' command determines which drawing properties get changed when calling 'setColorProperty()', 'setCountProperty()' library methods from applications. If none of those calls are used, then this command can be ignored.
 
-The 'M[<layer_num>]' command is only useful for applications that build patterns on the fly with multiple calls to 'execCommand()', otherwise you can ignore it.
+The 'M[<layer>]' command is only useful for applications that build patterns on the fly with multiple calls to 'execCommand()', otherwise you can ignore it.
 
 Pattern strings usually start with the 'P<layer_count>' command to clear all previous effect layers off of the stack. Otherwise, unless an application is building patterns incrementally, you don't need to use this.
 
