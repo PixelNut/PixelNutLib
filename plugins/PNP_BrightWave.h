@@ -4,7 +4,7 @@
 //    properties with a cosine function, such that any affected animation track
 //    will have its brightness increase and decrease, continuously.
 //
-//    The brightness property is modulated up/down from the original value by 20%
+//    The brightness property is modulated up/down from the original value by 30%
 //    of full brightness, with the force determining how many steps are taken in a
 //    cycle: at full force there are 100 steps to this cycle, increasing to the
 //    point where at a force=0 there is no modulation at all.
@@ -13,8 +13,8 @@
 //    brightness change.
 //
 //    For example: if the original value is set with 'B70', and the trigger force
-//    is 400 (max is 1000), then the brightness changes from 70 down to 50, then
-//    up to 90, and down to 50 again, and so on, with 250 (1000/400 * 100) steps
+//    is 400 (max is 1000), then the brightness changes from 70 down to 40, then
+//    up to 90, and down to 40 again, and so on, with 250 (1000/400 * 100) steps
 //    to the full cycle.
 //
 // Calling trigger():
@@ -61,7 +61,7 @@ public:
   {
     if (!baseValue) baseValue = pdraw->pcentBright;
 
-    int bright = baseValue + (20 * cos(angleNext));
+    int bright = baseValue + (30 * cos(angleNext));
     if (bright <= 0)       pdraw->pcentBright = 0;
     else if (bright > 100) pdraw->pcentBright = 100;
     else                   pdraw->pcentBright = bright;
