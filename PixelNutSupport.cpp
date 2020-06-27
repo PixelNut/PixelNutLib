@@ -39,7 +39,7 @@ static byte GammaCorrection(byte inval) { return pgm_read_byte(&gamma_vals[inval
 // val: 0...MAX_BYTE_VALUE
 static void HSVtoRGB(int hue, byte sat, byte val, byte *rptr, byte *gptr, byte *bptr)
 {
-  val = GammaCorrection(val); // gamma correction to brightness
+  //val = GammaCorrection(val); // gamma correction to brightness
 
   float s = (float)sat / MAX_PERCENTAGE;
   float v = (float)val / MAX_BYTE_VALUE;
@@ -94,9 +94,9 @@ static void HSVtoRGB(int hue, byte sat, byte val, byte *rptr, byte *gptr, byte *
   }
   }
 
-  *rptr = (r * MAX_BYTE_VALUE);
-  *gptr = (g * MAX_BYTE_VALUE);
-  *bptr = (b * MAX_BYTE_VALUE);
+  *rptr = GammaCorrection(r * MAX_BYTE_VALUE);
+  *gptr = GammaCorrection(g * MAX_BYTE_VALUE);
+  *bptr = GammaCorrection(b * MAX_BYTE_VALUE);
 }
 
 // empty default routine for debug output
