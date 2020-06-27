@@ -69,10 +69,10 @@ public:
   void setPropertyMode(bool enable);
 
   // Retrieves the external property mode settings
-  bool  getPropertyMode()    { return externPropMode; }
-  short getPropertyHue()     { return externDegreeHue;   }
-  byte  getPropertyWhite()   { return externPcentWhite;  }
-  byte  getPropertyCount()   { return externPcentCount;  }
+  bool  getPropertyMode()    { return externPropMode;   }
+  short getPropertyHue()     { return externDegreeHue;  }
+  byte  getPropertyWhite()   { return externPcentWhite; }
+  byte  getPropertyCount()   { return externPcentCount; }
 
   // Triggers effect layers with a range value of 0..MAX_FORCE_VALUE.
   // Must be enabled with the "I" command for each effect layer to be effective.

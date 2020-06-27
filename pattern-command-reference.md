@@ -28,7 +28,7 @@ If no value is specified the command is ignored. The initial value for this prop
 
 C[<percent>]
 ---------------------------------------------------------------
-Sets the 'pixCount' drawing property for the current effect by applying the value <percent>, which is a percentage from 0-100, to the total number of pixels in the output pixel array.
+Sets the 'pixCount' drawing property for the current effect by mapping the value <percent>, which is a percentage from 0-100, to the total number of pixels in the output pixel array (1...max).
 
 If no value is specified the command is ignored. The pixel count property itself is initially set to 1.
 
