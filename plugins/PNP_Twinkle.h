@@ -40,31 +40,67 @@ public:
 
   void nextstep(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw)
   {
-    if (pbytes == NULL) return;
+    int draw = 0, skip = 0;
 
     for (uint16_t i = 0; i < pixLength; ++i)
     {
-      //pixelNutSupport.msgFormat(F("Twinkle: pbytes[%d] = %d"), i, pbytes[i]);
+      if (!draw && !skip)
+      {
+        if (pdraw->pixCount == 1)
+        {
+          skip = 0;
+          draw = pixLength;
+        }
+        else if (pdraw->pixCount == pixLength)
+        {
+          skip = pixLength;
+          draw = 0;
+        }
+        else if (pdraw->pixCount > (pixLength - pdraw->pixCount))
+        {
+          skip = pdraw->pixCount / (pixLength - pdraw->pixCount);
+          draw = 1;
+        }
+        else
+        {
+          draw = (pixLength - pdraw->pixCount) / pdraw->pixCount;
+          skip = 1;
+        }
 
-      bool doscale = true;
+        //pixelNutSupport.msgFormat(F("Twinkle: draw=%d skip=%d"), draw, skip);
+      }
+
       float scale = 0.0;
 
-      if (pbytes[i] >= maxvalue)
+      if (draw)
       {
-        if (--(pbytes[i]) >= maxvalue)
-          continue; // keep off for now
+        --draw;
+        //pixelNutSupport.msgFormat(F("Twinkle: pbytes[%d]=%d"), i, pbytes[i]);
 
-        pbytes[i] = 1; // draw now, increasing level
+        bool doscale = true;
+
+        if (pbytes[i] >= maxvalue)
+        {
+          if (--(pbytes[i]) >= maxvalue)
+            continue; // keep off for now
+
+          pbytes[i] = 1; // draw now, increasing level
+        }
+        else if (++(pbytes[i]) == 0)
+        {
+          pbytes[i] = maxvalue + random(10, 60); // go dark for random time
+          doscale = false;
+        }
+        else if (pbytes[i] == maxvalue)
+          pbytes[i] = -(maxvalue-1); // start decreasing level
+
+        if (doscale) scale = ((float)abs(pbytes[i])) / maxvalue;
       }
-      else if (++(pbytes[i]) == 0)
+      else
       {
-        pbytes[i] = maxvalue + random(10, 60); // go dark for random time
-        doscale = false;
+        --skip;
+        //pixelNutSupport.msgFormat(F("Twinkle: skipping #%d"), i);
       }
-      else if (pbytes[i] == maxvalue)
-        pbytes[i] = -(maxvalue-1); // start decreasing level
-
-      if (doscale) scale = ((float)abs(pbytes[i])) / maxvalue;
 
       pixelNutSupport.setPixel(handle, i, pdraw->r, pdraw->g, pdraw->b, scale);
     }
