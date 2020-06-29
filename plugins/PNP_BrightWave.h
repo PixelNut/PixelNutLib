@@ -42,14 +42,14 @@ class PNP_BrightWave : public PixelNutPlugin
 public:
   byte gettype(void) const
   {
-    return PLUGIN_TYPE_PREDRAW | PLUGIN_TYPE_SENDFORCE | PLUGIN_TYPE_DIRECTION;
+    return PLUGIN_TYPE_PREDRAW | PLUGIN_TYPE_TRIGGER | PLUGIN_TYPE_SENDFORCE | PLUGIN_TYPE_DIRECTION;
   };
 
   void begin(byte id, uint16_t pixlen)
   {
     myid = id;
     baseValue = 0;   // will be set on first call to nextstep()
-    angleNext = 0.0; // starting angle
+    angleNext = PI_VALUE; // starting angle for minimal brightness
   }
 
   void trigger(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw, short force)

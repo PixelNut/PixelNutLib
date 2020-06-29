@@ -18,7 +18,8 @@
 #define C_ASSERT(x) extern "C" int __CPP_ASSERT__ [(x)?1:-1]
 
 // useful physical constants:
-#define RADIANS_PER_WAVE    (2 * 3.1415)  // radians in a circle
+#define PI_VALUE            (3.1415)
+#define RADIANS_PER_WAVE    (2 * PI_VALUE)  // radians in a circle
 
 // maximum values for properties:
 #define MAX_BYTE_VALUE            255     // max value in 8 bits (unsigned)
