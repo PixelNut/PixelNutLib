@@ -27,7 +27,7 @@
 //
 // Properties Used:
 //
-//    msecsDelay - read to set the maximum delay the very first call to nextstep().
+//    msecsDelay - sets the maximum delay the very first call to nextstep().
 //
 // Properties Affected:
 //

@@ -16,20 +16,6 @@
 #include <PixelNutLib.h>
 #include "PNP_ColorCycle.h"
 
-class MyPluginFactory : public PluginFactory
-{
-public:
-  PixelNutPlugin *makePlugin(int plugin)
-  {
-    switch (plugin)
-    {
-      case 113: return new PNP_ColorCycle; // cycles through specific choices of colors (hue and whiteness)
-      
-      default:  return PluginFactory::makePlugin(plugin);
-    }
-  }
-};
-
 #define DPIN_PIXELS   17
 #define PIXEL_COUNT   60
 
@@ -43,6 +29,20 @@ PixelNutEngine pixelNutEngine = PixelNutEngine(pPixelData, PIXEL_COUNT);
 
 MyPluginFactory pluginFactory = MyPluginFactory();
 PluginFactory *pPluginFactory = &pluginFactory;
+
+class MyPluginFactory : public PluginFactory
+{
+public:
+  PixelNutPlugin *makePlugin(int plugin)
+  {
+    switch (plugin)
+    {
+      case 113: return new PNP_ColorCycle; // cycles through specific choices of colors (hue and whiteness)
+      
+      default:  return PluginFactory::makePlugin(plugin);
+    }
+  }
+};
 
 char myPattern[] = "E0 C50 T E113 T G";
 

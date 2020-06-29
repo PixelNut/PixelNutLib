@@ -15,6 +15,7 @@
 // Properties Used:
 //
 //    r,g,b - the current color values.
+//    pixCount - determines how many pixels used in effect.
 //
 // Properties Affected:
 //

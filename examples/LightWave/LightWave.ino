@@ -1,4 +1,4 @@
-// PixelNut! Sample Application
+// PixelNut! Example Application
 //
 // Copyright(c) 2017, Greg de Valois, www.devicenut.com
 //
