@@ -5,7 +5,7 @@
     See license.txt for the terms of this license.
 */
 
-#include "PixelNutLib.h"
+#include <PixelNutLib.h>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Internal helper routines
@@ -116,7 +116,7 @@ PixelNutSupport::PixelNutSupport(GetMsecsTime get_msecs, PixelValOrder *pix_orde
 {
   pPixOrder = pix_order;  // sets ordering of pixel RGB
   getMsecs = get_msecs;   // sets routine to get time
-  msgFormat = MsgFormat;  // default to no debug output
+  msgFormat = MsgFormat;  // default is no debug output
 }
 
 void PixelNutSupport::makeColorVals(DrawProps *pdraw)

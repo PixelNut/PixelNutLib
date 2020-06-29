@@ -5,7 +5,7 @@
     See license.txt for the terms of this license.
 */
 
-#include "PixelNutLib.h"
+#include <PixelNutLib.h>
 
 extern PluginFactory *pPluginFactory; // use externally declared pointer to instance
 

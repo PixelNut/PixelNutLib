@@ -17,19 +17,21 @@
 //
 // Calling trigger():
 //
-//    The first time this is called the max delay is set to the current value.
-//    When this is called after the current delay count has reached the maximum the
-//    delay value is reduced from this value based on the amount of force applied:
-//    at full force this is 0.
+//    The first time this is called the max delay is set to the current value. Then
+//    the current delay value is set based based on the amount of force applied: at
+//    full force it becomes 0.
 //
 // Calling nextstep():
 //
-//    Increments the delay time by 1 msec if the value is less than the original value
-//    as set from trigger(), else do nothing (wait for next trigger event).
+//    Increments the delay time until it becomes the original value in the D command.
+//
+// Properties Used:
+//
+//    msecsDelay - read to set the maximum delay the very first call to nextstep().
 //
 // Properties Affected:
 //
-//    msecsDelay - delay time in milliseconds
+//    msecsDelay - delay time in milliseconds: set each call to nextstep().
 //
 
 class PNP_DelaySurge : public PixelNutPlugin
@@ -42,7 +44,6 @@ public:
 
   void begin(byte id, uint16_t pixlen)
   {
-    //finished = true;
     maxDelay = -1;
   }
 
@@ -50,16 +51,12 @@ public:
   {
     if (maxDelay == (uint16_t)-1) maxDelay = pdraw->msecsDelay; // set on very first trigger
 
-    //if (finished)
-    {
-      // map inverse force between 0 and the max value (more force is less delay)
-      force = abs(force);
-      pdraw->msecsDelay = pixelNutSupport.mapValue(force, 0, MAX_FORCE_VALUE, maxDelay, 0);
-      //finished = false;
-      stepCount = 0;
+    // map inverse force between 0 and the max value (more force is less delay)
+    force = abs(force);
+    pdraw->msecsDelay = pixelNutSupport.mapValue(force, 0, MAX_FORCE_VALUE, maxDelay, 0);
+    stepCount = 0;
 
-      //pixelNutSupport.msgFormat(F("DelaySurge: low=%d max=%d"), pdraw->msecsDelay, maxDelay);
-    }
+    //pixelNutSupport.msgFormat(F("DelaySurge: low=%d max=%d"), pdraw->msecsDelay, maxDelay);
   }
 
   void nextstep(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw)
@@ -71,14 +68,12 @@ public:
         ++pdraw->msecsDelay;
         stepCount = 0;
 
-        //pixelNutSupport.msgFormat(F("DelaySurge: delay=%d => %d"), pdraw->msecsDelay, maxDelay);
+        //pixelNutSupport.msgFormat(F("DelaySurge: delay %d => %d"), pdraw->msecsDelay, maxDelay);
       }
     }
-    // else finished = true;
   }
 
 private:
-  //bool finished;
   uint16_t maxDelay;
   uint16_t stepCount;
 };
