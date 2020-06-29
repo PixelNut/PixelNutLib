@@ -12,42 +12,32 @@
 ---------------------------------------------------------------------------------------------*/
 
 #include <Arduino.h>
-#include <Adafruit_NeoPixel.h>
+#include <NeoPixelShow.h>
 #include <PixelNutLib.h>
 
-#define DPIN_PIXELS             17          // neopixels data pin
-#define PIXEL_COUNT             60          // number of pixels
-#define NUM_PLUGIN_LAYERS       4           // total number of plugins
-#define NUM_PLUGIN_TRACKS       3           // number of drawing plugins
+#define DPIN_PIXELS   17
+#define PIXEL_COUNT   60
 
-// create single statically allocated object instance
-Adafruit_NeoPixel neoPixels = Adafruit_NeoPixel(PIXEL_COUNT, DPIN_PIXELS, NEO_GRB + NEO_KHZ800);
+byte pixelArray[PIXEL_COUNT*3];
+byte *pPixelData = pixelArray;
+NeoPixelShow neoPixels = NeoPixelShow(DPIN_PIXELS);
 
 PixelValOrder pixorder = {1,0,2};
-
-// create single static object instance and a pointer to it
 PixelNutSupport pixelNutSupport = PixelNutSupport(millis, &pixorder);
+PixelNutEngine pixelNutEngine(pPixelData, PIXEL_COUNT);
 
-// create single static object instance and a pointer to it
-PixelNutEngine pixelNutEngine(neoPixels.getPixels(), neoPixels.numPixels(), 0, NUM_PLUGIN_LAYERS, NUM_PLUGIN_TRACKS);
-PixelNutEngine *pPixelNutEngine = &pixelNutEngine;
-
-// create single static object instance and a pointer to it
 PluginFactory pluginFactory = PluginFactory();
 PluginFactory *pPluginFactory = &pluginFactory;
 
-char myPattern[] = "P E10 B50 D60 T E101 T E120 F250 T G";   // light waves that change color periodically
+char myPattern[] = "E10 B50 D60 T E101 T E120 F250 T G";   // light waves that change color periodically
 
 void setup()
 {
-  neoPixels.begin();
-  neoPixels.show(); // clears the display to black
-
   pixelNutEngine.execCmdStr(myPattern);
 }
 
 void loop()
 {
   if (pixelNutEngine.updateEffects())
-    neoPixels.show(); // display new pixel values
+    neoPixels.show(pPixelData, PIXEL_COUNT*3);
 }

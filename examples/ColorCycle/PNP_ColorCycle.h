@@ -5,7 +5,7 @@
 //
 // Calling trigger():
 //
-//    Saves the force value to pass on when the color cycle is complete.
+//    Not implemented.
 //
 // Calling nextstep():
 //
@@ -27,40 +27,30 @@ public:
 
   void begin(byte id, uint16_t pixlen)
   {
-      myid = id;
-  }
-
-  void trigger(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw, short force)
-  {
-      forceVal = force;
-      count = -1;
+      max = 0;
+      count = 1;
       index = 0;
   }
 
   void nextstep(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw)
   {
-    if (count >= pdraw->pixCount)
+    if (max == 0) max = pdraw->pixCount * 3;
+
+    if (count++ >= max)
     {
       pdraw->degreeHue = hues[index];
       pdraw->pcentWhite = whites[index];
       pixelNutSupport.makeColorVals(pdraw);
 
       count = 1;
-      if (++index >= 3)
-      {
-        index = 0;
-        pixelNutSupport.sendForce(handle, myid, forceVal, pdraw);
-      }
+      if (++index >= 3) index = 0;
     }
-    else ++count;
   }
 
 private:
-    byte myid;
-    short forceVal;
-    uint16_t count;
+    uint16_t count, max;
     uint16_t index;
     // cycles through Red, White, Blue
-    uint16_t hues[3] = { 0, 0, 240 };
-    uint16_t whites[3] = { 0, 100, 0 };
+    uint16_t hues[3]   = { 0,   0,   240 };
+    uint16_t whites[3] = { 0,   100, 0   };
 };
