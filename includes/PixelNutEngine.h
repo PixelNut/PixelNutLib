@@ -44,8 +44,8 @@ public:
   // the first pixel to start drawing and the direction of drawing,
   // and the maximum effect layers and tracks that can be supported.
   PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels,
-                 uint16_t first_pixel, bool goupwards,
-                 short num_layers, short num_tracks);
+                 uint16_t first_pixel=0, bool goupwards=true,
+                 short num_layers=4, short num_tracks=3);
 
   void setMaxBrightness(byte percent) { pcentBright = percent; }
   byte getMaxBrightness() { return pcentBright; }
@@ -74,8 +74,9 @@ public:
   byte  getPropertyWhite()   { return externPcentWhite; }
   byte  getPropertyCount()   { return externPcentCount; }
 
-  // Triggers effect layers with a range value of 0..MAX_FORCE_VALUE.
-  // Must be enabled with the "I" command for each effect layer to be effective.
+  // Triggers effect layers with a range value of -MAX_FORCE_VALUE..MAX_FORCE_VALUE.
+  // (Negative values are not utilized by some plugins, and take the absolute value.)
+  // Must be enabled with the "I" command for each effect layer to be effected.
   virtual void triggerForce(short force);
 
   // Used by plugins to trigger based on the effect layer, enabled by the "A" command.
