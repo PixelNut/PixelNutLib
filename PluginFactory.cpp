@@ -7,7 +7,7 @@
     See license.txt for the terms of this license.
 */
 
-#include "PixelNutLib.h"
+#include <PixelNutLib.h>
 
 #if defined(ARDUINO)
 #include "plugins/PNP_DrawAll.h"
@@ -22,7 +22,6 @@
 #include "plugins/PNP_Noise.h"
 #include "plugins/PNP_HueSet.h"
 #include "plugins/PNP_HueRotate.h"
-#include "plugins/PNP_ColorCycle.h"
 #include "plugins/PNP_ColorMeld.h"
 #include "plugins/PNP_ColorModify.h"
 #include "plugins/PNP_ColorRandom.h"
@@ -30,8 +29,9 @@
 #include "plugins/PNP_CountWave.h"
 #include "plugins/PNP_CountSurge.h"
 #include "plugins/PNP_DelaySet.h"
-#include "plugins/PNP_DelayWave.h"
 #include "plugins/PNP_DelaySurge.h"
+#include "plugins/PNP_DelayWave.h"
+#include "plugins/PNP_BrightSurge.h"
 #include "plugins/PNP_BrightWave.h"
 #include "plugins/PNP_WinExpander.h"
 #include "plugins/PNP_FlipDirection.h"
@@ -50,7 +50,6 @@
 #include "PNP_Noise.h"
 #include "PNP_HueSet.h"
 #include "PNP_HueRotate.h"
-#include "PNP_ColorCycle.h"
 #include "PNP_ColorMeld.h"
 #include "PNP_ColorModify.h"
 #include "PNP_ColorRandom.h"
@@ -58,8 +57,9 @@
 #include "PNP_CountWave.h"
 #include "PNP_CountSurge.h"
 #include "PNP_DelaySet.h"
-#include "PNP_DelayWave.h"
 #include "PNP_DelaySurge.h"
+#include "PNP_DelayWave.h"
+#include "PNP_BrightSurge.h"
 #include "PNP_BrightWave.h"
 #include "PNP_WinExpander.h"
 #include "PNP_FlipDirection.h"
@@ -94,17 +94,17 @@ PixelNutPlugin *PluginFactory::makePlugin(int plugin)
     case 110: return new PNP_ColorMeld;                   // smoothly melds between colors when they change
     case 111: return new PNP_ColorModify;                 // force modifies both the color hue/white properties once when triggered
     case 112: return new PNP_ColorRandom;                 // sets color hue/white to random values on each step (doesn't use force)
-    case 113: return new PNP_ColorCycle;                  // cycles through specific choices of colors (hue and whiteness)
+    //case 113: return new PNP_ColorCycle;                  // cycles through specific choices of colors (hue and whiteness)
 
     case 120: return new PNP_CountSet;                    // force directly sets the count property value once when triggered
     case 121: return new PNP_CountSurge;                  // force increases count then evenly reverts to original value
     case 122: return new PNP_CountWave;                   // force determines the number of steps that modulates pixel count
 
     case 130: return new PNP_DelaySet;                    // force directly sets the delay property value once when triggered
-    case 131: return new PNP_DelaySurge;                  // force decreases delay then evenly reverts to original value
-                                                          // (this must be triggered periodically for a continuous effect)
+    case 131: return new PNP_DelaySurge;                  // force decreases delay then reverts to original value, must be triggered
     case 132: return new PNP_DelayWave;                   // force determines the number of steps that modulates delay time
 
+    case 141: return new PNP_BrightSurge;                 // force increases brightness, then reverts to original value, must be triggered
     case 142: return new PNP_BrightWave;                  // force determines the number of steps that modulates brightness
 
     case 150: return new PNP_WinExpander;                 // expands/contracts drawing window that stays centered on strip
