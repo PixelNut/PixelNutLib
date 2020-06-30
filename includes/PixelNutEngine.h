@@ -75,12 +75,15 @@ public:
   byte  getPropertyCount()   { return externPcentCount; }
 
   // Triggers effect layers with a range value of -MAX_FORCE_VALUE..MAX_FORCE_VALUE.
-  // (Negative values are not utilized by some plugins, and take the absolute value.)
+  // (Negative values are not utilized by most plugins: they take the absolute value.)
   // Must be enabled with the "I" command for each effect layer to be effected.
-  virtual void triggerForce(short force);
+  void triggerForce(short force);
 
   // Used by plugins to trigger based on the effect layer, enabled by the "A" command.
-  virtual void triggerForce(byte layer, short force, PixelNutSupport::DrawProps *pdraw);
+  void triggerForce(byte layer, short force, PixelNutSupport::DrawProps *pdraw);
+
+  // Called by the above and DoTrigger(), CheckAutoTrigger(), allows override
+  virtual void triggerLayer(byte layer, short force);
 
   // Parses and executes a command string, returning a status code.
   // An empty string (or one with only spaces), is ignored.
@@ -168,7 +171,6 @@ protected:
   // allow extending/overriding for more advanced layer/track handling
   virtual Status NewPluginLayer(int plugin, int segnum, int start, int end);
 
-  void DoTrigger(bool notext, int layer, short force);
   void CheckAutoTrigger(bool rollover);
 };
 

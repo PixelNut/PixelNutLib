@@ -250,48 +250,42 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segindex, 
 // Trigger force handling routines
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// internal: cause trigger if not external or is enabled in track
-void PixelNutEngine::DoTrigger(bool not_extern, int layer, short force)
+void PixelNutEngine::triggerLayer(byte layer, short force)
 {
   PluginLayer *pLayer = &pluginLayers[layer];
+  int track = pLayer->track;
+  PluginTrack *pTrack = &pluginTracks[track];
 
-  if (not_extern || pLayer->trigExtern)
+  bool predraw = (pLayer->pPlugin->gettype() & PLUGIN_TYPE_PREDRAW);
+
+  DBGOUT((F("Trigger: layer=%d track=%d(L%d) force=%d"), layer, track, pTrack->layer, force));
+
+  short pixCount = 0;
+  short degreeHue = 0;
+  byte pcentWhite = 0;
+
+  // prevent predraw effect from overwriting properties if in extern mode
+  if (externPropMode)
   {
-    int track = pLayer->track;
-    PluginTrack *pTrack = &pluginTracks[track];
-
-    bool predraw = (pLayer->pPlugin->gettype() & PLUGIN_TYPE_PREDRAW);
-
-    DBGOUT((F("Trigger: layer=%d track=%d(L%d) force=%d%s"), layer, track, pTrack->layer, force,
-              ((!not_extern && pLayer->trigExtern) ? " X" : "")));
-
-    short pixCount = 0;
-    short degreeHue = 0;
-    byte pcentWhite = 0;
-
-    // prevent predraw effect from overwriting properties if in extern mode
-    if (externPropMode)
-    {
-      pixCount = pTrack->draw.pixCount;
-      degreeHue = pTrack->draw.degreeHue;
-      pcentWhite = pTrack->draw.pcentWhite;
-    }
-
-    byte *dptr = pDrawPixels;
-    pDrawPixels = (predraw ? NULL : pTrack->pRedrawBuff); // prevent drawing if not drawing effect
-    pLayer->pPlugin->trigger(this, &pTrack->draw, force);
-    pDrawPixels = dptr; // restore to the previous value
-
-    if (externPropMode) RestorePropVals(pTrack, pixCount, degreeHue, pcentWhite);
-
-    // if this is the drawing effect for the track then redraw immediately
-    if (!predraw) pTrack->msTimeRedraw = pixelNutSupport.getMsecs();
-
-    pLayer->trigActive = true; // layer has been triggered now
+    pixCount = pTrack->draw.pixCount;
+    degreeHue = pTrack->draw.degreeHue;
+    pcentWhite = pTrack->draw.pcentWhite;
   }
+
+  byte *dptr = pDrawPixels;
+  pDrawPixels = (predraw ? NULL : pTrack->pRedrawBuff); // prevent drawing if not drawing effect
+  pLayer->pPlugin->trigger(this, &pTrack->draw, force);
+  pDrawPixels = dptr; // restore to the previous value
+
+  if (externPropMode) RestorePropVals(pTrack, pixCount, degreeHue, pcentWhite);
+
+  // if this is the drawing effect for the track then redraw immediately
+  if (!predraw) pTrack->msTimeRedraw = pixelNutSupport.getMsecs();
+
+  pLayer->trigActive = true; // layer has been triggered now
 }
 
-// internal: check for any automatic triggering that needs to be done
+// internal: check for any automatic triggering
 void PixelNutEngine::CheckAutoTrigger(bool rollover)
 {
   for (int i = 0; i <= indexLayerStack; ++i) // for each plugin layer
@@ -314,7 +308,7 @@ void PixelNutEngine::CheckAutoTrigger(bool rollover)
 
       short force = ((pluginLayers[i].trigForce >= 0) ? pluginLayers[i].trigForce : random(0, MAX_FORCE_VALUE+1));
 
-      DoTrigger(true, i, force);
+      triggerLayer(i, force);
 
       pluginLayers[i].trigTimeMsecs = timePrevUpdate +
           (1000 * random(pluginLayers[i].trigDelayMin,
@@ -325,21 +319,20 @@ void PixelNutEngine::CheckAutoTrigger(bool rollover)
   }
 }
 
+// external: cause trigger if enabled in track
 void PixelNutEngine::triggerForce(short force)
 {
-  //DBGOUT((F("TriggerForce: force=%d"), force));
-
   for (int i = 0; i <= indexLayerStack; ++i)
-    DoTrigger(false, i, force);
+    if (pluginLayers[i].trigExtern)
+      triggerLayer(i, force);
 }
 
+// internal: called from plugins
 void PixelNutEngine::triggerForce(byte layer, short force, PixelNutSupport::DrawProps *pdraw)
 {
-  //DBGOUT((F("TriggerForce: layer=%d force=%d"), layer, force));
-
   for (int i = 0; i <= indexLayerStack; ++i)
     if (layer == pluginLayers[i].trigSource)
-      DoTrigger(true, i, force);
+      triggerLayer(i, force);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -646,7 +639,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
                force = pluginLayers[curlayer].trigForce;
           else force = random(0, MAX_FORCE_VALUE+1);
 
-          DoTrigger(true, curlayer, force); // always trigger immediately
+          triggerLayer(curlayer, force); // always trigger immediately
           break;
         }
         case 'G': // Go: activate newly added effect tracks
