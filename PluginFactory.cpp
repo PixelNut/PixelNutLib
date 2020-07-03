@@ -2,7 +2,7 @@
 // Class to create instances of plugins.
 // Uses the PixelNutSupport and PixelNutComets Interfaces.
 /*
-    Copyright (c) 2015-2017, Greg de Valois
+    Copyright (c) 2015-2020, Greg de Valois
     Software License Agreement (BSD License)
     See license.txt for the terms of this license.
 */
