@@ -216,7 +216,7 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segindex, 
   // Note: all other trigger parameters are initialized to 0
 
   // begin new plugin, but will not be drawn until triggered ("id" is the layer number)
-  pPlugin->begin(indexLayerStack, pix_count);
+  pPlugin->begin(indexLayerStack, pix_count); // TODO: return false if failed
 
   DBGOUT((F("Adding plugin #%d: type=0x%02X layer=%d track=%d"),
         plugin, pPlugin->gettype(), indexLayerStack, indexTrackStack));

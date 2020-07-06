@@ -35,12 +35,16 @@ public:
     pbytes = (int16_t*)malloc(pixLength * sizeof(int16_t));
 
     maxvalue = 50;
-    if (pbytes != NULL) for (uint16_t i = 0; i < pixLength; ++i)
-      pbytes[i] = random(0, ((maxvalue * 2) + 50)) - maxvalue;
+
+    if (pbytes != NULL)
+      for (uint16_t i = 0; i < pixLength; ++i)
+        pbytes[i] = random(0, ((maxvalue * 2) + maxvalue)) - maxvalue;
   }
 
   void nextstep(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw)
   {
+    if (pbytes == NULL) return;
+    
     int draw = 0, skip = 0;
 
     for (uint16_t i = 0; i < pixLength; ++i)
