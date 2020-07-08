@@ -26,7 +26,7 @@ PixelNutEngine::PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels,
                                uint16_t first_pixel, bool goupwards,
                                short num_layers, short num_tracks)
 {
-  // NOTE: cannot call DBGOUT from constructor
+  // NOTE: cannot call DBGOUT here if statically constructed
 
   pDisplayPixels  = ptr_pixels;
   numPixels       = num_pixels;
@@ -39,7 +39,14 @@ PixelNutEngine::PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels,
   maxPluginTracks = num_tracks;
 
   pluginLayers = (PluginLayer*)malloc(num_layers * sizeof(PluginLayer));
-  pluginTracks = (PluginTrack*)malloc(num_layers * sizeof(PluginTrack));
+  pluginTracks = (PluginTrack*)malloc(num_tracks * sizeof(PluginTrack));
+
+  /*
+  DBGOUT((F("Engine: layers=%d (bytes=%d) tracks=%d (bytes=%d)"),
+          NUM_PLUGIN_LAYERS, (NUM_PLUGIN_LAYERS * sizeof(PluginLayer)),
+          NUM_PLUGIN_TRACKS, (NUM_PLUGIN_TRACKS * sizeof(PluginTrack))));
+
+  */
 
   if ((ptr_pixels == NULL) || (num_pixels == 0) ||
     (pluginLayers == NULL) || (pluginTracks == NULL))
@@ -215,11 +222,11 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segindex, 
   pLayer->trigForce     = MAX_FORCE_VALUE/2;
   // Note: all other trigger parameters are initialized to 0
 
-  // begin new plugin, but will not be drawn until triggered ("id" is the layer number)
-  pPlugin->begin(indexLayerStack, pix_count); // TODO: return false if failed
-
-  DBGOUT((F("Adding plugin #%d: type=0x%02X layer=%d track=%d"),
+  DBGOUT((F("Added plugin #%d: type=0x%02X layer=%d track=%d"),
         plugin, pPlugin->gettype(), indexLayerStack, indexTrackStack));
+
+  // begin new plugin, but will not be drawn until triggered
+  pPlugin->begin(indexLayerStack, pix_count); // TODO: return false if failed
 
   if (hasbuffer) // wait to do this until after any memory allocation in plugin
   {

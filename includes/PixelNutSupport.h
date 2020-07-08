@@ -68,7 +68,7 @@ public:
   // and the Plugins to draw into pixel buffers and handle trigger events.
 
   // properties that can be modified at any time by commands/plugins:
-  typedef struct ATTR_PACKED
+  typedef struct ATTR_PACKED // 14 bytes
   {
       uint16_t pixStart, pixEnd;  // start/end of range of pixels to be drawn (0...)
                                   // allows plugins to adjust range of pixels to be drawn

@@ -104,7 +104,7 @@ protected:
   byte pcentBright = MAX_PERCENTAGE;            // max percent brightness to apply to each effect
   int8_t delayOffset = 0;                       // additional delay to add to each effect (msecs)
 
-  typedef struct ATTR_PACKED
+  typedef struct ATTR_PACKED // 18-20 bytes
   {
                                                 // random auto triggering information:
     uint32_t trigTimeMsecs;                     // time of next trigger in msecs (0 if not set yet)
@@ -123,7 +123,7 @@ protected:
   }
   PluginLayer; // defines each layer of effect plugin
 
-  typedef struct ATTR_PACKED
+  typedef struct ATTR_PACKED // 28-30 bytes
   {
     uint32_t msTimeRedraw;                      // time of next redraw of plugin in msecs
     byte *pRedrawBuff;                          // allocated buffer or NULL for postdraw effects
