@@ -16,7 +16,6 @@
                                         // these are mutually exclusive:
 #define PLUGIN_TYPE_REDRAW        0x01  // creates pixel values from settings    
 #define PLUGIN_TYPE_PREDRAW       0x02  // alters effect settings before drawing
-#define PLUGIN_TYPE_POSTDRAW      0x04  // alters final output pixel buffer
 
                                         // any combination of these is valid:
 #define PLUGIN_TYPE_TRIGGER       0x10  // triggering changes the effect somehow

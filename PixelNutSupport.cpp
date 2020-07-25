@@ -126,9 +126,9 @@ void PixelNutSupport::makeColorVals(DrawProps *pdraw)
   HSVtoRGB(pdraw->degreeHue, (MAX_PERCENTAGE - pdraw->pcentWhite), brightval, &pdraw->r, &pdraw->g, &pdraw->b);
 }
 
-void PixelNutSupport::movePixels(PixelNutHandle p, uint16_t startpos, uint16_t endpos, uint16_t newpos)
+void PixelNutSupport::movePixels(PixelNutHandle handle, uint16_t startpos, uint16_t endpos, uint16_t newpos)
 {
-  PixelNutEngine *pEngine = (PixelNutEngine*)p;
+  PixelNutEngine *pEngine = (PixelNutEngine*)handle;
   if (pEngine->pDrawPixels != NULL)
   {
     byte *ppixs1 = (pEngine->pDrawPixels + (startpos * 3));
@@ -138,9 +138,9 @@ void PixelNutSupport::movePixels(PixelNutHandle p, uint16_t startpos, uint16_t e
   }
 }
 
-void PixelNutSupport::clearPixels(PixelNutHandle p, uint16_t startpos, uint16_t endpos)
+void PixelNutSupport::clearPixels(PixelNutHandle handle, uint16_t startpos, uint16_t endpos)
 {
-  PixelNutEngine *pEngine = (PixelNutEngine*)p;
+  PixelNutEngine *pEngine = (PixelNutEngine*)handle;
   if (pEngine->pDrawPixels != NULL)
   {
     byte *ppixs = (pEngine->pDrawPixels + (startpos * 3));
@@ -149,9 +149,9 @@ void PixelNutSupport::clearPixels(PixelNutHandle p, uint16_t startpos, uint16_t 
   }
 }
 
-void PixelNutSupport::getPixel(PixelNutHandle p, uint16_t pos, byte *ptr_r, byte *ptr_g, byte *ptr_b)
+void PixelNutSupport::getPixel(PixelNutHandle handle, uint16_t pos, byte *ptr_r, byte *ptr_g, byte *ptr_b)
 {
-  PixelNutEngine *pEngine = (PixelNutEngine*)p;
+  PixelNutEngine *pEngine = (PixelNutEngine*)handle;
   if (pEngine->pDrawPixels != NULL)
   {
     byte *ppixs = (pEngine->pDrawPixels + (pos * 3));
@@ -161,9 +161,9 @@ void PixelNutSupport::getPixel(PixelNutHandle p, uint16_t pos, byte *ptr_r, byte
    }
 }
 
-void PixelNutSupport::setPixel(PixelNutHandle p, uint16_t pos, byte r, byte g, byte b, float scale)
+void PixelNutSupport::setPixel(PixelNutHandle handle, uint16_t pos, byte r, byte g, byte b, float scale)
 {
-  PixelNutEngine *pEngine = (PixelNutEngine*)p;
+  PixelNutEngine *pEngine = (PixelNutEngine*)handle;
   if (pEngine->pDrawPixels != NULL)
   {
     byte *ppixs = (pEngine->pDrawPixels + (pos * 3));
@@ -177,9 +177,9 @@ void PixelNutSupport::setPixel(PixelNutHandle p, uint16_t pos, byte r, byte g, b
   }
 }
 
-void PixelNutSupport::setPixel(PixelNutHandle p, uint16_t pos, float scale)
+void PixelNutSupport::setPixel(PixelNutHandle handle, uint16_t pos, float scale)
 {
-  PixelNutEngine *pEngine = (PixelNutEngine*)p;
+  PixelNutEngine *pEngine = (PixelNutEngine*)handle;
   if (pEngine->pDrawPixels != NULL)
   {
     byte *ppixs = (pEngine->pDrawPixels + (pos * 3));
@@ -202,8 +202,8 @@ long PixelNutSupport::clipValue(long inval, long out_min, long out_max)
   return inval;
 }
 
-void PixelNutSupport::sendForce(PixelNutHandle p, byte id, short force, DrawProps *pdraw)
+void PixelNutSupport::sendForce(PixelNutHandle handle, byte id, short force, DrawProps *pdraw)
 {
-  PixelNutEngine *pEngine = (PixelNutEngine*)p;
+  PixelNutEngine *pEngine = (PixelNutEngine*)handle;
   pEngine->triggerForce(id, force, pdraw);
 }

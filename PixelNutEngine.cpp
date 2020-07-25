@@ -164,18 +164,20 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segindex, 
   if (pPlugin == NULL) return Status_Error_BadVal;
 
   // determine if must allocate buffer for track, or is a filter plugin
-  bool hasbuffer = (pPlugin->gettype() & PLUGIN_TYPE_REDRAW);
+  bool newbuffer = (pPlugin->gettype() & PLUGIN_TYPE_REDRAW);
   bool newtrack = !(pPlugin->gettype() & PLUGIN_TYPE_PREDRAW);
+
+  DBGOUT((F("Buffer=%d Track=%d Layer=%d Track=%d"), newbuffer, newtrack, indexLayerStack, indexTrackStack));
 
   // check if:
   // a filter plugin and there is at least one redraw plugin, or
   // a redraw plugin and cannot add another track to the stack
-  if ((!hasbuffer && (indexTrackStack < 0)) ||
-      ( hasbuffer && ((indexTrackStack+1) >= maxPluginTracks)))
+  if ((!newbuffer && (indexTrackStack < 0)) ||
+      ( newtrack  && ((indexTrackStack+1) >= maxPluginTracks)))
   {
     delete pPlugin;
 
-    if (hasbuffer)
+    if (newtrack)
     {
       DBGOUT((F("Cannot add another track: max=%d"), (indexTrackStack+1)));
       return Status_Error_Memory;
@@ -228,7 +230,7 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segindex, 
   // begin new plugin, but will not be drawn until triggered
   pPlugin->begin(indexLayerStack, pix_count); // TODO: return false if failed
 
-  if (hasbuffer) // wait to do this until after any memory allocation in plugin
+  if (newbuffer) // wait to do this until after any memory allocation in plugin
   {
     int numbytes = pix_count*3;
     byte *p = (byte*)malloc(numbytes);
@@ -446,7 +448,7 @@ void PixelNutEngine::RestorePropVals(PluginTrack *pTrack, uint16_t pixCount, uin
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Main command handler and pixel buffer renderer
-// Uses all alpha characters except: J,K,L,R,S
+// Uses all alpha characters except: R,S
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
@@ -471,7 +473,24 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
 
     DBGOUT((F(">> Cmd=%s len=%d"), cmd, strlen(cmd)));
 
-    if (cmd[0] == 'X') // sets offset into output display of the current segment
+    if (cmd[0] == 'J') // sets offset into output display of the current segment
+    {
+      segOffset = GetNumValue(cmd+1, 0, MAX_PERCENTAGE) * numPixels;
+      segOffset /= MAX_PERCENTAGE;
+      if (segOffset > (numPixels-1)) segOffset = (numPixels-1);
+    }
+    else if (cmd[0] == 'K') // sets number of pixels in the current segment
+    {
+      segCount = GetNumValue(cmd+1, 0, MAX_PERCENTAGE) * numPixels;
+      segCount /= MAX_PERCENTAGE;
+      if (segCount > (numPixels-segOffset)) segCount = (numPixels-segOffset);
+      ++segindex;
+    }
+    else if (cmd[0] == 'L') // sets position of the first pixel to start drawing
+    {
+      firstPixel = GetNumValue(cmd+1, 0, MAX_PERCENTAGE) * (numPixels-1);
+    }
+    else if (cmd[0] == 'X') // sets offset into output display of the current segment
     {
       int pos = GetNumValue(cmd+1, numPixels-1); // returns -1 if not within range
       if (pos >= 0) segOffset = pos;
