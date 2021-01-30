@@ -5,13 +5,8 @@
     See license.txt for the terms of this license.
 */
 
-#if defined(ARDUINO)
 #include <PixelNutLib.h>
 #include "plugins/PixelNutComets.h"    // support class for the comet effects
-#elif defined(SPARK)
-#include <PixelNutLib.h>
-#include "PixelNutComets.h"
-#endif
 
 PixelNutComets pixelNutComets;  // single statically allocated object instance
 

@@ -100,7 +100,7 @@ static void HSVtoRGB(int hue, byte sat, byte val, byte *rptr, byte *gptr, byte *
 }
 
 // empty default routine for debug output
-#if defined(SPARK) || defined(ESP32)
+#if defined(ESP32)
 static void MsgFormat(const char *str, ...) {}
 #else
 static void MsgFormat(const __FlashStringHelper *str, ...) {}

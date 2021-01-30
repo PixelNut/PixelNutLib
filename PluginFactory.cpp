@@ -9,7 +9,6 @@
 
 #include <PixelNutLib.h>
 
-#if defined(ARDUINO)
 #include "plugins/PNP_DrawAll.h"
 #include "plugins/PNP_DrawPush.h"
 #include "plugins/PNP_DrawStep.h"
@@ -35,35 +34,6 @@
 #include "plugins/PNP_BrightWave.h"
 #include "plugins/PNP_WinExpander.h"
 #include "plugins/PNP_FlipDirection.h"
-
-#elif defined(SPARK)
-#include "math.h"
-#include "PNP_DrawAll.h"
-#include "PNP_DrawPush.h"
-#include "PNP_DrawStep.h"
-#include "PNP_LightWave.h"
-#include "PNP_CometHeads.h"
-#include "PNP_FerrisWheel.h"
-#include "PNP_BlockScanner.h"
-#include "PNP_Twinkle.h"
-#include "PNP_Blinky.h"
-#include "PNP_Noise.h"
-#include "PNP_HueSet.h"
-#include "PNP_HueRotate.h"
-#include "PNP_ColorMeld.h"
-#include "PNP_ColorModify.h"
-#include "PNP_ColorRandom.h"
-#include "PNP_CountSet.h"
-#include "PNP_CountWave.h"
-#include "PNP_CountSurge.h"
-#include "PNP_DelaySet.h"
-#include "PNP_DelaySurge.h"
-#include "PNP_DelayWave.h"
-#include "PNP_BrightSurge.h"
-#include "PNP_BrightWave.h"
-#include "PNP_WinExpander.h"
-#include "PNP_FlipDirection.h"
-#endif
 
 extern PluginFactory *pPluginFactory; // use externally declared pointer to instance
 
