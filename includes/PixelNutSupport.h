@@ -10,6 +10,11 @@
 
 #include "Arduino.h"
 
+#if defined(ESP32)
+#undef F
+#define F(x) x
+#endif
+
 #define ATTR_PACKED __attribute__ ((packed))
 #define C_ASSERT(x) extern "C" int __CPP_ASSERT__ [(x)?1:-1]
 
