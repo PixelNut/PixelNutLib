@@ -41,13 +41,6 @@ PixelNutEngine::PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels,
   pluginLayers = (PluginLayer*)malloc(num_layers * sizeof(PluginLayer));
   pluginTracks = (PluginTrack*)malloc(num_tracks * sizeof(PluginTrack));
 
-  /*
-  DBGOUT((F("Engine: layers=%d (bytes=%d) tracks=%d (bytes=%d)"),
-          NUM_PLUGIN_LAYERS, (NUM_PLUGIN_LAYERS * sizeof(PluginLayer)),
-          NUM_PLUGIN_TRACKS, (NUM_PLUGIN_TRACKS * sizeof(PluginTrack))));
-
-  */
-
   if ((ptr_pixels == NULL) || (num_pixels == 0) ||
     (pluginLayers == NULL) || (pluginTracks == NULL))
        pDrawPixels = NULL; // caller must test for this
@@ -704,7 +697,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
 
 bool PixelNutEngine::updateEffects(void)
 {
-  bool doshow = false;
+  bool doshow = (timePrevUpdate == 0);
 
   uint32_t time = pixelNutSupport.getMsecs();
   bool rollover = (timePrevUpdate > time);
