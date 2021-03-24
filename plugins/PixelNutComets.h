@@ -1,13 +1,12 @@
 // PixelNut Comet Effect Plugin Support Class Definition
 // Used by effect plugins that use comets.
 /*
-    Copyright (c) 2015-2020, Greg de Valois
+    Copyright (c) 2015-2021, Greg de Valois
     Software License Agreement (BSD License)
     See license.txt for the terms of this license.
 */
 
-#ifndef PIXELNUT_COMETS_H
-#define PIXELNUT_COMETS_H
+#pragma once
 
 // Routines for drawing comets effects:
 // Create: assigns data space to hold requested heads, returns NULL if failed
@@ -30,5 +29,3 @@ public:
 };
 
 extern PixelNutComets pixelNutComets; // single statically allocated object instance
-
-#endif // PIXELNUT_COMETS_H

@@ -2,13 +2,12 @@
 // Each plugin must derive from this class.
 // Uses the PixelNutSupport Interface.
 /*
-    Copyright (c) 2015-2020, Greg de Valois
+    Copyright (c) 2015-2021, Greg de Valois
     Software License Agreement (BSD License)
     See license.txt for the terms of this license.
 */
 
-#ifndef PIXELNUT_PLUGIN_H
-#define PIXELNUT_PLUGIN_H
+#pragma once
 
 // Only the destructor and the gettype functions must be implemented in a derived class
 // (although to do anything interesting one of other functions needs to be overriden too).
@@ -44,5 +43,3 @@ public:
   // properties. The rate at which this is called depends on the delay property.
   virtual void nextstep(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw) {}
 };
-
-#endif

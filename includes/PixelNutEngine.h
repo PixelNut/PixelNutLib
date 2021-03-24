@@ -2,13 +2,12 @@
 // PixelNut Plugin Factory Class
 // Uses the PixelNut Support Interface.
 /*
-    Copyright (c) 2015-2020, Greg de Valois
+    Copyright (c) 2015-2021, Greg de Valois
     Software License Agreement (BSD License)
     See license.txt for the terms of this license.
 */
 
-#ifndef PIXELNUT_ENGINE_H
-#define PIXELNUT_ENGINE_H
+#pragma once
 
 class PixelNutEngine
 {
@@ -178,5 +177,3 @@ class PluginFactory
 {
   public: virtual PixelNutPlugin *makePlugin(int plugin);
 };
-
-#endif // PIXELNUT_ENGINE_H
