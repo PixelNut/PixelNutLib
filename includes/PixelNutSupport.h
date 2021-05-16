@@ -26,6 +26,7 @@
 #define MAX_WORD_VALUE            65535   // max value in 16 bits (unsigned)
 #define MAX_PERCENTAGE            100     // max percent value (0..100)
 #define MAX_DEGREES_HUE           359     // hue value is 0-359
+#define MAX_TRACK_LAYER           254     // max value for track/layer
 #define MAX_PIXEL_VALUE           255     // max value for pixel
 #define MAX_DELAY_VALUE           255     // max value for delay
 #define MAX_FORCE_VALUE           1000    // max value for force

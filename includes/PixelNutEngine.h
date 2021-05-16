@@ -42,6 +42,7 @@ public:
   // Constructor: init location/length of the pixels to be drawn, 
   // the first pixel to start drawing and the direction of drawing,
   // and the maximum effect layers and tracks that can be supported.
+  // num_layers/tracks *must not* be greater than MAX_TRACK_LAYER.
   PixelNutEngine(byte *ptr_pixels, uint16_t num_pixels,
                  uint16_t first_pixel=0, bool goupwards=true,
                  short num_layers=4, short num_tracks=3);

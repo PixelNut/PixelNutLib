@@ -212,8 +212,8 @@ PixelNutEngine::Status PixelNutEngine::NewPluginLayer(int plugin, int segindex, 
   pLayer->track         = indexTrackStack;
   pLayer->pPlugin       = pPlugin;
   pLayer->trigCount     = -1; // forever
-  pLayer->trigSource    = -1; // disabled
   pLayer->trigDelayMin  = 1;  // 1 sec min
+  pLayer->trigSource    = MAX_BYTE_VALUE; // disabled
   pLayer->trigForce     = MAX_FORCE_VALUE/2;
   // Note: all other trigger parameters are initialized to 0
 
@@ -466,31 +466,31 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
 
     DBGOUT((F(">> Cmd=%s len=%d"), cmd, strlen(cmd)));
 
-    if (cmd[0] == 'J') // sets offset into output display of the current segment
+    if (cmd[0] == 'J') // sets offset into output display of the current segment by percent
     {
       segOffset = GetNumValue(cmd+1, 0, MAX_PERCENTAGE) * numPixels;
       segOffset /= MAX_PERCENTAGE;
       if (segOffset > (numPixels-1)) segOffset = (numPixels-1);
     }
-    else if (cmd[0] == 'K') // sets number of pixels in the current segment
+    else if (cmd[0] == 'K') // sets number of pixels in the current segment by percent
     {
       segCount = GetNumValue(cmd+1, 0, MAX_PERCENTAGE) * numPixels;
       segCount /= MAX_PERCENTAGE;
       if (segCount > (numPixels-segOffset)) segCount = (numPixels-segOffset);
       ++segindex;
     }
-    else if (cmd[0] == 'L') // sets position of the first pixel to start drawing
+    else if (cmd[0] == 'L') // sets position of the first pixel to start drawing by percent
     {
       firstPixel = GetNumValue(cmd+1, 0, MAX_PERCENTAGE) * (numPixels-1);
     }
-    else if (cmd[0] == 'X') // sets offset into output display of the current segment
+    else if (cmd[0] == 'X') // sets offset into output display of the current segment by index
     {
       int pos = GetNumValue(cmd+1, numPixels-1); // returns -1 if not within range
       if (pos >= 0) segOffset = pos;
       else segOffset = 0;
       // cannot check against Y value to allow resetting X before setting Y
     }
-    else if (cmd[0] == 'Y') // sets number of pixels in the current segment
+    else if (cmd[0] == 'Y') // sets number of pixels in the current segment by index
     {
       int count = GetNumValue(cmd+1, numPixels-segOffset); // returns -1 if not within range
       if (count > 0)
@@ -500,7 +500,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
       }
       else segCount = numPixels;
     }
-    else if (cmd[0] == 'Z') // sets position of the first pixel to start drawing
+    else if (cmd[0] == 'Z') // sets position of the first pixel to start drawing by index
     {
       int pos = GetNumValue(cmd+1, numPixels-1); // returns -1 if not within range
       firstPixel = (pos >= 0) ? pos : 0;         // set to 0 if out of range
@@ -616,7 +616,7 @@ PixelNutEngine::Status PixelNutEngine::execCmdStr(char *cmdstr)
         }
         case 'A': // Assign effect layer as trigger source for current plugin layer ("A" is same as "A0")
         {
-          pluginLayers[curlayer].trigSource = GetNumValue(cmd+1, 0, MAX_BYTE_VALUE); // clip to 0-MAX_BYTE_VALUE
+          pluginLayers[curlayer].trigSource = GetNumValue(cmd+1, 0, MAX_TRACK_LAYER); // clip to 0-MAX_TRACK_LAYER
           DBGOUT((F("Triggering assigned to layer %d"), pluginLayers[curlayer].trigSource));
           break;
         }
