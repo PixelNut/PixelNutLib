@@ -64,8 +64,7 @@ PixelNutPlugin *PluginFactory::makePlugin(int plugin)
     case 110: return new PNP_ColorMeld;                   // smoothly melds between colors when they change
     case 111: return new PNP_ColorModify;                 // force modifies both the color hue/white properties once when triggered
     case 112: return new PNP_ColorRandom;                 // sets color hue/white to random values on each step (doesn't use force)
-    //case 113: return new PNP_ColorCycle;                  // cycles through specific choices of colors (hue and whiteness)
-
+    
     case 120: return new PNP_CountSet;                    // force directly sets the count property value once when triggered
     case 121: return new PNP_CountSurge;                  // force increases count then evenly reverts to original value
     case 122: return new PNP_CountWave;                   // force determines the number of steps that modulates pixel count

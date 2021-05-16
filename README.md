@@ -1,7 +1,7 @@
 PixelNutLib Arduino Library
 ================================================================
 
-This is a library for creating and manipulating effects using WS2812B LEDs (also referred to as NeoPixels) pixels. After downloading, rename the folder to 'PixelNutLib' and install it into the Arduino Libraries folder.
+This is a library for creating and manipulating effects using WS2812B and APA102 LEDs (also referred to as NeoPixels) pixels. After downloading, rename the folder to 'PixelNutLib' and install it into the Arduino Libraries folder.
 
 Note that the sample application that comes with this library requires the standard NeoPixel library 'Adafruit_NeoPixels' to be installed as well, however the PixelNutLib library itself is not dependent any particular Arduino library.
 

@@ -60,7 +60,7 @@ The 'Q<byteval>' command determines which drawing properties get changed when ca
 
 The 'M[<layer>]' command is only useful for applications that build patterns on the fly with multiple calls to 'execCommand()', otherwise you can ignore it.
 
-Pattern strings usually start with the 'P<layer_count>' command to clear all previous effect layers off of the stack. Otherwise, unless an application is building patterns incrementally, you don't need to use this.
+Pattern strings usually start with the 'P[<layer_count>]' command (with no optional layer count) to clear all previous effect layers off of the stack. Otherwise, unless an application is building patterns incrementally, you don't need to use this.
 
 Finally, the last command in patterns strings is usually 'G', which activates all previously defined tracks.
 

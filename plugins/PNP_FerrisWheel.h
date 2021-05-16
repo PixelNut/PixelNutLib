@@ -14,6 +14,7 @@
 // Properties Used:
 //
 //    pixCount - determines the number of spokes in the "wheel".
+//    r,g,b - the current color values.
 //
 // Properties Affected:
 //

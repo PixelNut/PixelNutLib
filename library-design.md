@@ -33,7 +33,7 @@ The PluginFactory class only has a single method that, when called with a plugin
 
 These plugins in turn provide all the code to create pixels, using common PixelNutSupport routines to actually set, clear, and copy the pixel values in memory.
 
-There are two types of plugins: one that actually create pixels values (“drawing”), and ones that just manipulate the drawing properties for these drawing plugins. These include properties such as the color hue, whiteness and brightness, how much delay there between redraws, and others.
+There are two types of plugins: one that actually create pixels values (ï¿½drawingï¿½), and ones that just manipulate the drawing properties for these drawing plugins. These include properties such as the color hue, whiteness and brightness, how much delay there between redraws, and others.
 
 The result of all of this is an array of memory with pixel values that the application then displays to physical arrays (strips or strands) of pixels. 
 
@@ -65,11 +65,11 @@ There are several ways this entry point gets called:
 
 1. Use the 'T' command in the specification for the layer. This causes 'trigger()' to be called once as the entire pattern string is being parsed.
 
-2. Using this command with a value, as in 'T<val2>', with or without the 'O<val1>' command, to causes the entry point to be called randomly every val1-val2 number of seconds. The number of times this happens is determined by the 'N' command.
+2. Using this command with a value, as in 'T<val2>', with or without the 'O<val1>' command, causes the entry point to be called randomly every val1-val2 number of seconds. The number of times this happens is determined by the 'N' command.
 
-In both of these cases the force that is passed into 'trigger()' is determined by the 'F' command for that layer, which is either an explicit value assigned to the command ('F100'), or if left blank then a random value is assigned each time it is triggered.
+In both of these cases the force that is passed into 'trigger()' is determined by the 'F' command for that layer, which is either an explicit value assigned to the command ('F100'), or if no value follows the 'F' then a random value is assigned each time it is triggered.
 
-3. The application calls the 'triggerForce()' PixelNutEngine method with a force value. What event triggers this call, and how the force value is determined, is entirely up to the application, and can be from pushing a button, or from some other hardware input device.
+3. The application calls the 'triggerForce()' PixelNutEngine method with a force value. What event triggers this call, and how the force value is determined, is entirely up to the application, and can be from pushing a button, or from some other hardware input device, or from some software defined event.
 
 
 Applications

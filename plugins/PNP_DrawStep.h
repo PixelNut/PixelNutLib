@@ -13,7 +13,8 @@
 //
 // Properties Used:
 //
-//    All current color properties.
+//    pcentBright - the brightness.
+//    r,g,b - the current color values.
 //
 // Properties Affected:
 //

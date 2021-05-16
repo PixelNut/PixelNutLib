@@ -8,16 +8,17 @@
 //
 // Calling nextstep():
 //
-//    Sets random pixels 'pixCount' times to a random brightness that greater than 10%.
+//    Sets random pixels 'pixCount' times to a random brightness that's greater than 10%.
 //
 // Properties Used:
 //
-//    pixCount - count of the number of times a random pixel is set each nextstep().
+//    degreeHue, pcentWhite - determines the color.
 //    pcentBright - determines the maximum brightness.
+//    pixCount - count of the number of times a random pixel is set each nextstep().
 //
 // Properties Affected:
 //
-//    none
+//    r,g,b - the current color values.
 //
 
 class PNP_Noise : public PixelNutPlugin
