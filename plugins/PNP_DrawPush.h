@@ -29,7 +29,7 @@ class PNP_DrawPush : public PixelNutPlugin
 public:
   byte gettype(void) const
   {
-    return PLUGIN_TYPE_REDRAW | PLUGIN_TYPE_DIRECTION | PLUGIN_TYPE_SENDFORCE;
+    return PLUGIN_TYPE_REDRAW | PLUGIN_TYPE_DIRECTION | PLUGIN_TYPE_NEGFORCE | PLUGIN_TYPE_SENDFORCE;
   };
 
   void begin(byte id, uint16_t pixlen)

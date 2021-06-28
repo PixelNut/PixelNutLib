@@ -24,7 +24,10 @@
 class PNP_FerrisWheel : public PixelNutPlugin
 {
 public:
-  byte gettype(void) const { return PLUGIN_TYPE_REDRAW | PLUGIN_TYPE_DIRECTION; };
+  byte gettype(void) const
+  {
+    return PLUGIN_TYPE_REDRAW | PLUGIN_TYPE_DIRECTION;
+  };
 
   void begin(byte id, uint16_t pixlen)
   {

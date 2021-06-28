@@ -24,7 +24,10 @@
 class PNP_Noise : public PixelNutPlugin
 {
 public:
-  byte gettype(void) const { return PLUGIN_TYPE_REDRAW; };
+  byte gettype(void) const
+  {
+    return PLUGIN_TYPE_REDRAW;
+  };
 
   void begin(byte id, uint16_t pixlen)
   {

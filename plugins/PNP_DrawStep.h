@@ -26,7 +26,7 @@ class PNP_DrawStep : public PixelNutPlugin
 public:
   byte gettype(void) const
   {
-    return PLUGIN_TYPE_REDRAW | PLUGIN_TYPE_SENDFORCE | PLUGIN_TYPE_DIRECTION;
+    return PLUGIN_TYPE_REDRAW | PLUGIN_TYPE_NEGFORCE | PLUGIN_TYPE_SENDFORCE | PLUGIN_TYPE_DIRECTION;
   };
 
   void begin(byte id, uint16_t pixlen)

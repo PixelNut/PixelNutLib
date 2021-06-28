@@ -27,7 +27,10 @@ class PNP_Twinkle : public PixelNutPlugin
 public:
   ~PNP_Twinkle() { if (pbytes != NULL) free(pbytes); }
 
-  byte gettype(void) const { return PLUGIN_TYPE_REDRAW; };
+  byte gettype(void) const
+  {
+    return PLUGIN_TYPE_REDRAW;
+  };
 
   void begin(byte id, uint16_t pixlen)
   {

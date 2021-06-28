@@ -42,7 +42,8 @@ class PNP_BrightWave : public PixelNutPlugin
 public:
   byte gettype(void) const
   {
-    return PLUGIN_TYPE_PREDRAW | PLUGIN_TYPE_TRIGGER | PLUGIN_TYPE_SENDFORCE | PLUGIN_TYPE_DIRECTION;
+    return PLUGIN_TYPE_PREDRAW | PLUGIN_TYPE_DIRECTION |
+           PLUGIN_TYPE_TRIGGER | PLUGIN_TYPE_USEFORCE  | PLUGIN_TYPE_SENDFORCE;
   };
 
   void begin(byte id, uint16_t pixlen)
@@ -54,7 +55,7 @@ public:
 
   void trigger(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw, short force)
   {
-    forceVal = force;
+    forceVal = abs(force);
   }
 
   void nextstep(PixelNutHandle handle, PixelNutSupport::DrawProps *pdraw)

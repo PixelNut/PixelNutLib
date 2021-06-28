@@ -17,9 +17,11 @@
 #define PLUGIN_TYPE_PREDRAW       0x02  // alters effect settings before drawing
 
                                         // any combination of these is valid:
-#define PLUGIN_TYPE_TRIGGER       0x10  // triggering changes the effect somehow
-#define PLUGIN_TYPE_SENDFORCE     0x20  // will send trigger force to other plugins
-#define PLUGIN_TYPE_DIRECTION     0x40  // changing direction will affect animation
+#define PLUGIN_TYPE_DIRECTION     0x08  // changing direction changes effect
+#define PLUGIN_TYPE_TRIGGER       0x10  // triggering changes the effect
+#define PLUGIN_TYPE_USEFORCE      0x20  // trigger force is used in effect
+#define PLUGIN_TYPE_NEGFORCE      0x40  // negative trigger force is used
+#define PLUGIN_TYPE_SENDFORCE     0x80  // sends trigger force to other plugins
 
 class PixelNutPlugin
 {
