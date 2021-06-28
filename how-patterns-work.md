@@ -58,7 +58,7 @@ The 'I' command enables external triggering for the specified plugin layer. Othe
 
 The 'Q<byteval>' command determines which drawing properties get changed when calling 'setColorProperty()', 'setCountProperty()' library methods from applications. If none of those calls are used, then this command can be ignored.
 
-The 'M[<layer>]' command is only useful for applications that build patterns on the fly with multiple calls to 'execCommand()', otherwise you can ignore it.
+The 'M[<layer>]' command is only useful for applications that build patterns on the fly with multiple calls to 'execCmdStr()', otherwise you can ignore it.
 
 Pattern strings usually start with the 'P[<layer_count>]' command (with no optional layer count) to clear all previous effect layers off of the stack. Otherwise, unless an application is building patterns incrementally, you don't need to use this.
 
@@ -110,7 +110,7 @@ When the application calls the 'triggerForce()' method, the 'trigger()' methods 
 Execution Errors
 ---------------------------------------------------------------
 
-Errors cause the remainder of the command string to be ignored, with the PixelNut Engine method 'execCommand()' returning something other than 'Status_Success' (see 'PixelNutEngine.h').
+Errors cause the remainder of the command string to be ignored, with the PixelNut Engine method 'execCmdStr()' returning something other than 'Status_Success' (see 'PixelNutEngine.h').
 
 1. The command is not listed above. Returns 'Status_BadCmd'.
 

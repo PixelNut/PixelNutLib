@@ -48,7 +48,7 @@ E<plugin>
 ---------------------------------------------------------------
 Creates a new effect layer specified by the value <plugin> (see the file 'PluginFactory.cpp' for which numbers have been assigned to which plugin).
 
-Unlike most other commands, leaving out the number causes an error to be returned from the 'execCommand()' library method.
+Unlike most other commands, leaving out the number causes an error to be returned from the 'execCmdStr()' library method.
 
 Depending on the plugin type, this layer may or may not be an effect track, meaning it will be actually be drawing pixels, instead of just modifying drawing properties.
 
@@ -66,7 +66,7 @@ This is the Go command, which activates all previously defined plugin effect lay
 
 Until this command is used, the layers are not "active", meaning the 'nextstep()' method of the plugins are not called when the application calls 'updateEffects()'.
 
-This can be useful to applications that build up patterns with multiple calls to 'execCommand()', with a final call using "G" to actually display the result.
+This is usually put at the end of a pattern string, so that nothing is displayed until the entire pattern has been setup.
 
 
 H[<degrees>]
@@ -82,19 +82,21 @@ Enables external triggering for a plugin layer. This means that calls to 'trigge
 
 The default value is disabled.
 
+J,K,L TODO
+---------------------------------------------------------------
 
 M[<layer>]
 ---------------------------------------------------------------
 Sets the plugin effect layer which subsequent property commands ('B', 'C', 'D', etc.) will be applied to. Layers are numbered from 0.
 
-This can be useful to applications that build up patterns with multiple calls to 'execCommand()', and wish to modify properties that have been previously specified.
+This can be useful to applications that build up patterns with multiple calls to 'execCmdStr()', and wish to modify properties that have been previously specified.
 
 
 N[<byteval>]
 ---------------------------------------------------------------
 Sets the repeat count used in automatic triggering (see the 'T' command) to the value <byteval>, from 0-255. If the value is missing 0 is used, which is the default setting.
 
-This determines how many times the current plugin's 'trigger()' method is called (plus the initial call when 'T' is used). A value of 0 means that the triggering will continue indefinitely.
+This determines how many times the current plugin's 'trigger()' method is called (not including the initial one when 'T' is used). A value of 0 means that the triggering will continue indefinitely.
 
 
 O[<wordval>]
@@ -108,7 +110,7 @@ Pops the specified number of layers off the layer stack. Without a layer count, 
 
 This is used at the beginning of all preset patterns so that previously loaded effects are removed, allowing the creation of new patterns from scratch instead of having them append commands to the previously one.
 
-This can be also useful to applications that build up patterns with multiple calls to 'execCommand()', and wish to selectively pop off only the top few layers. For example, 'P1' will pop off only the topmost layer.
+This can be also useful to applications that build up patterns with multiple calls to 'execCmdStr()', and wish to selectively pop off only the top few layers. For example, 'P1' will pop off only the topmost layer.
 
 
 Q[<byteval>]
@@ -123,7 +125,7 @@ The value in <byteval> is to be interpreted as a bit field, with the bit values 
 
 For example, using the 'Q3' command on an effect track indicates that calls to 'setColorProperty()' will set both the color hue and whiteness properties on that track.
 
-In addition, if the application enables the external property mode by calling 'setExternPropertyMode(true)' (it is false by default), these Q bits inhibit the predraw type of effects assigned to a track from modifying the corresponding property.
+In addition, if the application enables the external property mode by calling 'setPropertyMode(true)' (it is false by default), these Q bits inhibit the predraw type of effects assigned to a track from modifying the corresponding property.
 
 Using the 'Q3' example above, when this mode is enabled, any predraw effect that normally would periodically change the color hue wouldn't work, allowing the application to directly set the color instead.
 
@@ -132,7 +134,7 @@ T[<byteval>]
 ---------------------------------------------------------------
 Triggers the current effect layer (calls into the 'trigger()' method of that plugin), and optionally specifies a timer value with <byteval>.
 
-The timer value specifies a time duration in seconds, which is used to trigger the plugin at a random time between the minimum (set with the 'O' command, with default of 1 second) and the additional number of seconds specified by the value specified here (if 0 then triggering always happens at that minimum).
+The timer value specifies a time duration in seconds, which is used to trigger the plugin at a random time between the minimum (set with the 'O' command, with default of 1 second) and the additional number of seconds specified by the value here (if 0 then triggering always happens at that minimum).
 
 If no value is specified there is only one trigger. If this command is omitted when creating an effect, then the method 'nextstep()' for that plugin is not called until triggered with a call to 'triggerForce()' by the application (which would need to be enabled by setting the 'I' command for the drawing track).
 
